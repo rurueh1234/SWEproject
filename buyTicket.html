@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy Ticket - MetroX</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="scripts.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Buy Metro Ticket</h1>
+        <nav>
+            <ul>
+                <li><a href="homepage.html">Home</a></li>
+                <li><a href="viewTickets.html">View Tickets</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <h2>Purchase Your Ticket</h2>
+        <form id="ticket-form">
+            <label for="ticket-type">Select Ticket Type:</label>
+            <select id="ticket-type">
+                <option value="single">Single - $5</option>
+                <option value="family">Family - $15</option>
+            </select>
+            
+            <button type="submit">Buy Now</button>
+        </form>
+        <p id="purchase-confirmation" style="display: none; color: green;">Ticket purchased successfully!</p>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 MetroX. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        document.getElementById("ticket-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            document.getElementById("purchase-confirmation").style.display = "block";
+        });
+    </script>
+</body>
+</html>

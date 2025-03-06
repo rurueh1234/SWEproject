@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Tickets - MetroX</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="scripts.js"></script>
+</head>
+<body>
+    <header>
+        <h1>My Tickets</h1>
+        <nav>
+            <ul>
+                <li><a href="homepage.html">Home</a></li>
+                <li><a href="account.html">Account</a></li>
+                <li><a href="buyTicket.html">Buy Ticket</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <h2>Your Purchased Tickets</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Ticket ID</th>
+                    <th>Type</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="ticket-list">
+                <tr>
+                    <td>#12345</td>
+                    <td>Single</td>
+                    <td>$5</td>
+                    <td><button onclick="deleteTicket(this)">Delete</button></td>
+                </tr>
+                <tr>
+                    <td>#67890</td>
+                    <td>Family</td>
+                    <td>$15</td>
+                    <td><button onclick="deleteTicket(this)">Delete</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 MetroX. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        function deleteTicket(button) {
+            button.parentElement.parentElement.remove();
+            alert("Ticket deleted successfully!");
+        }
+    </script>
+</body>
+</html>

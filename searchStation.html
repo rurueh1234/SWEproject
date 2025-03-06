@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Station - MetroX</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="scripts.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Search Metro Station</h1>
+        <nav>
+            <ul>
+                <li><a href="homepage.html">Home</a></li>
+                <li><a href="journey.html">Journey Planning</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <h2>Find the Nearest Metro Station</h2>
+        <form id="search-form">
+            <label for="location">Enter Your Location:</label>
+            <input type="text" id="location" required>
+            
+            <button type="submit">Find Station</button>
+        </form>
+        <div id="search-result"></div>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 MetroX. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        document.getElementById("search-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            document.getElementById("search-result").innerHTML = "<p>Nearest station to " + 
+                document.getElementById("location").value + " is Central Station</p>";
+        });
+    </script>
+</body>
+</html>

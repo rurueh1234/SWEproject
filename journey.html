@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journey Planning - MetroX</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="scripts.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Journey Planning</h1>
+        <nav>
+            <ul>
+                <li><a href="homepage.html">Home</a></li>
+                <li><a href="searchStation.html">Search Station</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <h2>Plan Your Metro Journey</h2>
+        <form id="journey-form">
+            <label for="start">Starting Station:</label>
+            <input type="text" id="start" required>
+            
+            <label for="destination">Destination Station:</label>
+            <input type="text" id="destination" required>
+            
+            <button type="submit">Find Route</button>
+        </form>
+        <div id="journey-result"></div>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 MetroX. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        document.getElementById("journey-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            document.getElementById("journey-result").innerHTML = "<p>Showing best route from " + 
+                document.getElementById("start").value + " to " + 
+                document.getElementById("destination").value + "</p>";
+        });
+    </script>
+</body>
+</html>
