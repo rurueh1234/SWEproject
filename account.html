@@ -3,43 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Account - MetroX</title>
+    <title>User Profile - MetroX</title>
     <link rel="stylesheet" href="styles.css">
     <script defer src="scripts.js"></script>
 </head>
 <body>
     <header>
-        <h1>My Account</h1>
+        <img src="logo.png" alt="MetroX Logo" style="width: 400px; height: 100px; object-fit: contain;">
         <nav>
             <ul>
                 <li><a href="homepage.html">Home</a></li>
-                <li><a href="viewTickets.html">View Tickets</a></li>
-                <li><a href="logout.html">Logout</a></li>
+                <li id="tickets-link" style="display: none;"><a href="viewTickets.html">Your tickets</a></li>
+                <li id="journey-link" style="display: none;"><a href="journey.html">Journey Planning</a></li>
+                <li><a href="#" id="logout-link" style="display: none;">Logout</a></li>
             </ul>
         </nav>
     </header>
     
     <main>
-        <h2>Account Details</h2>
-        <form id="account-form">
-            <label for="username">Username:</label>
-            <input type="text" id="username" value="JohnDoe" required>
+        <form id="login-form">
+            <h2>Login</h2>
+            <label for="login-username">Username:</label>
+            <input type="text" id="login-username" required>
             
-            <label for="email">Email:</label>
-            <input type="email" id="email" value="johndoe@example.com" required>
+            <label for="login-password">Password:</label>
+            <input type="password" id="login-password" required>
             
-            <button type="submit">Update Details</button>
+            <button type="submit">Login</button>
         </form>
+
+        <div id="profile" style="display: none;">
+            <img id="profile-pic" src="profile.jpg" alt="Profile Picture" 
+                 style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover;">
+                 <h2>Welcome <span id="profile-username"></span></h2>
+            <p><strong>Email:</strong> <span id="profile-email"></span></p>
+            <p><strong>Phone Number:</strong> <span id="profile-phone"></span></p>
+            <button id="edit-button">Edit</button>
+        </div>
+
+        <div id="edit-form" style="display: none;">
+            <h2>Edit Profile</h2>
+            <form id="profile-edit-form">
+                <label for="edit-username">Username:</label>
+                <input type="text" id="edit-username" required>
+                
+                <label for="edit-email">Email:</label>
+                <input type="email" id="edit-email" required>
+                
+                <label for="edit-phone">Phone Number:</label>
+                <input type="text" id="edit-phone" required>
+                
+                <label for="edit-pic">Profile Picture:</label>
+                <input type="file" id="edit-pic" accept="image/*">
+                
+                <button type="submit">Save Changes</button>
+            </form>        
+            <br>
+            <br>
+        </div>
     </main>
     
-    <footer>
-        <p>&copy; 2025 MetroX. All rights reserved.</p>
-    </footer>
+    <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <footer>
+            <div class="footer-content">
+                <div class="footer-section about">
+                    <h3>About MetroX</h3>
+                    <p>MetroX is dedicated to providing real-time metro updates, journey planning, and ticket management for a seamless travel experience.</p>
+                </div>
+                
+                <div class="footer-section contact">
+                    <h3>Contact Us</h3>
+                    <p>Email: support@metrox.com</p>
+                    <p>Phone: +1 (123) 456-7890</p>
+                </div>
+        
+                <div class="footer-section social">
+                    <h3>Follow Us</h3>
+                    <a href="#" target="_blank">Facebook</a>
+                    <a href="#" target="_blank">Twitter</a>
+                    <a href="#" target="_blank">Instagram</a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 MetroX. All rights reserved.</p>
+            </div>
+        </footer>
     
     <script>
-        document.getElementById("account-form").addEventListener("submit", function(event) {
+        const loginForm = document.getElementById("login-form");
+        const profile = document.getElementById("profile");
+        const editForm = document.getElementById("edit-form");
+        const profileUsername = document.getElementById("profile-username");
+        const profileEmail = document.getElementById("profile-email");
+        const profilePhone = document.getElementById("profile-phone");
+
+        loginForm.addEventListener("submit", function(event) {
             event.preventDefault();
-            alert("Account details updated successfully!");
+            const username = document.getElementById("login-username").value;
+            const password = document.getElementById("login-password").value;
+
+            // Assuming login is always successful for this example.
+            profileUsername.textContent = username;
+            profileEmail.textContent = "johndoe@example.com"; // Default value; replace as needed
+            profilePhone.textContent = "123-456-7890"; // Default value; replace as needed
+            loginForm.style.display = "none";
+            profile.style.display = "block";
+
+            // Show the links after logging in
+            document.getElementById("tickets-link").style.display = "list-item";
+            document.getElementById("journey-link").style.display = "list-item";
+            document.getElementById("logout-link").style.display = "inline"; // Show logout link
+        });
+        document.getElementById("edit-button").addEventListener("click", function() {
+            editForm.style.display = "block";
+            document.getElementById("edit-username").value = profileUsername.textContent;
+            document.getElementById("edit-email").value = profileEmail.textContent;
+            document.getElementById("edit-phone").value = profilePhone.textContent;
+        });
+
+        document.getElementById("edit-pic").addEventListener("change", function(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById("profile-pic").src = e.target.result; // Update the profile picture
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+document.getElementById("profile-edit-form").addEventListener("submit", function(event) {
+    event.preventDefault();
+    profileUsername.textContent = document.getElementById("edit-username").value;
+    profileEmail.textContent = document.getElementById("edit-email").value;
+    profilePhone.textContent = document.getElementById("edit-phone").value;
+    editForm.style.display = "none";
+    alert("Profile updated successfully!");
+});
+
+        document.getElementById("logout-link").addEventListener("click", function(event) {
+            event.preventDefault(); // Prevent default anchor behavior
+            loginForm.style.display = "block";
+            profile.style.display = "none";
+            editForm.style.display = "none";
+            document.getElementById("tickets-link").style.display = "none";
+            document.getElementById("journey-link").style.display = "none";
+            document.getElementById("logout-link").style.display = "none"; // Hide logout link
+
+            // Clear profile information
+            profileUsername.textContent = '';
+            profileEmail.textContent = '';
+            profilePhone.textContent = '';
         });
     </script>
 </body>
