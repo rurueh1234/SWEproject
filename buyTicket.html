@@ -6,41 +6,121 @@
     <title>Buy Ticket - MetroX</title>
     <link rel="stylesheet" href="styles.css">
     <script defer src="scripts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        #qrCodeContainer {
+            text-align: center;
+            margin-top: 20px;
+        }
+        #qrcode {
+            display: inline-block;
+            margin: 10px auto;
+        }
+        .qr-button {
+            display: block;
+            margin: 10px auto;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <h1>Buy Metro Ticket</h1>
+        <h1>Buy Ticket</h1>
         <nav>
             <ul>
                 <li><a href="homepage.html">Home</a></li>
+                <li><a href="account.html">Account</a></li>
                 <li><a href="viewTickets.html">View Tickets</a></li>
             </ul>
         </nav>
     </header>
-    
+
     <main>
-        <h2>Purchase Your Ticket</h2>
-        <form id="ticket-form">
-            <label for="ticket-type">Select Ticket Type:</label>
-            <select id="ticket-type">
-                <option value="single">Single - $5</option>
-                <option value="family">Family - $15</option>
+        <h2>Select Your Ticket</h2>
+        <form id="ticketForm">
+            <label for="ticketType">Ticket Type:</label>
+            <select id="ticketType" name="ticketType" onchange="updatePrice()">
+                <option value="Single">Single</option>
+                <option value="Family">Family</option>
             </select>
-            
-            <button type="submit">Buy Now</button>
+
+            <div id="familyMembersDiv" style="display: none;">
+                <label for="familyMembers">Number of Family Members:</label>
+                <input type="number" id="familyMembers" name="familyMembers" min="2" max="10" value="2" onchange="updatePrice()">
+            </div>
+
+            <label for="ticketDuration">Ticket Duration:</label>
+            <select id="ticketDuration" name="ticketDuration" onchange="updatePrice()">
+                <option value="Weekly">Weekly</option>
+                <option value="Monthly">Monthly</option>
+            </select>
+
+            <p><strong>Price:</strong> <span id="ticketPrice">$5</span></p>
+            <button type="button" onclick="purchaseTicket()">Purchase Ticket</button>
         </form>
-        <p id="purchase-confirmation" style="display: none; color: green;">Ticket purchased successfully!</p>
+
+        <div id="qrCodeContainer" style="display: none;">
+            <h3>Your Ticket QR Code:</h3>
+            <div id="qrcode"></div>
+            <button class="qr-button" onclick="downloadQRCode()">Download QR Code</button>
+        </div>
     </main>
-    
+
     <footer>
         <p>&copy; 2025 MetroX. All rights reserved.</p>
     </footer>
-    
+
     <script>
-        document.getElementById("ticket-form").addEventListener("submit", function(event) {
-            event.preventDefault();
-            document.getElementById("purchase-confirmation").style.display = "block";
-        });
+        function updatePrice() {
+            let type = document.getElementById("ticketType").value;
+            let duration = document.getElementById("ticketDuration").value;
+            let familyMembers = document.getElementById("familyMembers").value;
+            let price = 5;
+
+            if (type === "Family") {
+                document.getElementById("familyMembersDiv").style.display = "block";
+                familyMembers = Math.max(2, familyMembers); // Ensure at least 2 members
+
+                if (duration === "Weekly") {
+                    price = familyMembers * 5; // Weekly: $5 per member
+                } else {
+                    price = familyMembers * 20; // Monthly: $20 per member
+                }
+            } else {
+                document.getElementById("familyMembersDiv").style.display = "none";
+                price = duration === "Weekly" ? 5 : 20; // Single Ticket: $5 Weekly, $20 Monthly
+            }
+
+            document.getElementById("ticketPrice").innerText = `$${price}`;
+        }
+
+        function purchaseTicket() {
+            let ticketType = document.getElementById("ticketType").value;
+            let ticketDuration = document.getElementById("ticketDuration").value;
+            let familyMembers = document.getElementById("familyMembers").value;
+            let price = document.getElementById("ticketPrice").innerText;
+
+            let qrText = `MetroX Ticket\\nType: ${ticketType}\\nDuration: ${ticketDuration}\\nPrice: ${price}`;
+            if (ticketType === "Family") {
+                qrText += `\\nFamily Members: ${familyMembers}`;
+            }
+
+            document.getElementById("qrCodeContainer").style.display = "block";
+            document.getElementById("qrcode").innerHTML = "";
+            new QRCode(document.getElementById("qrcode"), qrText);
+        }
+
+        function downloadQRCode() {
+            let qrElement = document.getElementById("qrcode").getElementsByTagName("img")[0];
+            let link = document.createElement("a");
+            link.href = qrElement.src;
+            link.download = "MetroX_Ticket_QR.png";
+            link.click();
+        }
+
+        document.getElementById("ticketType").addEventListener("change", updatePrice);
+        document.getElementById("ticketDuration").addEventListener("change", updatePrice);
+        document.getElementById("familyMembers").addEventListener("input", updatePrice);
     </script>
 </body>
 </html>
