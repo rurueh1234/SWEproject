@@ -25,22 +25,41 @@
             <thead>
                 <tr>
                     <th>Ticket ID</th>
-                    <th>Type</th>
+                    <th>Type</th>  <!-- Single or Family -->
+                    <th>Duration</th>  <!-- Weekly or Monthly -->
                     <th>Price</th>
+                    <th>Valid Until</th>
+                    <th>Status</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody id="ticket-list">
+                <!-- Example Tickets -->
                 <tr>
                     <td>#12345</td>
                     <td>Single</td>
+                    <td>Weekly</td>
                     <td>$5</td>
+                    <td>2025-03-01</td>  <!-- Expired Ticket -->
+                    <td class="status"></td>
                     <td><button onclick="deleteTicket(this)">Delete</button></td>
                 </tr>
                 <tr>
                     <td>#67890</td>
-                    <td>Family</td>
-                    <td>$15</td>
+                    <td>Family (3 Members)</td>
+                    <td>Monthly</td>
+                    <td>$25</td>
+                    <td>2025-03-29</td>  <!-- Active Until March 29 -->
+                    <td class="status"></td>
+                    <td><button onclick="deleteTicket(this)">Delete</button></td>
+                </tr>
+                <tr>
+                    <td>#54321</td>
+                    <td>Single</td>
+                    <td>Monthly</td>
+                    <td>$80</td>
+                    <td>2025-04-01</td>  <!-- Monthly Ticket (30 days from purchase) -->
+                    <td class="status"></td>
                     <td><button onclick="deleteTicket(this)">Delete</button></td>
                 </tr>
             </tbody>
@@ -56,6 +75,29 @@
             button.parentElement.parentElement.remove();
             alert("Ticket deleted successfully!");
         }
+
+        // Function to update ticket statuses dynamically
+        function updateTicketStatus() {
+            let rows = document.querySelectorAll("#ticket-list tr");
+            let today = new Date();
+
+            rows.forEach(row => {
+                let dateStr = row.cells[4].textContent.trim(); // Valid Until Date
+                let statusCell = row.cells[5];
+
+                let ticketDate = new Date(dateStr);
+
+                if (ticketDate < today) {
+                    statusCell.textContent = "Expired";
+                    statusCell.style.color = "red";
+                } else {
+                    statusCell.textContent = "Active";
+                    statusCell.style.color = "green";
+                }
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", updateTicketStatus);
     </script>
 </body>
 </html>
