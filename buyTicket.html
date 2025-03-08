@@ -16,10 +16,41 @@
             display: inline-block;
             margin: 10px auto;
         }
-        .qr-button {
+        .qr-button, .send-button {
             display: block;
             margin: 10px auto;
             text-align: center;
+        }
+        #sendTicketContainer {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            width: 50%;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        #sendUsername {
+            width: 80%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .send-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .send-button:hover {
+            background: #0056b3;
         }
     </style>
 </head>
@@ -64,6 +95,14 @@
             <div id="qrcode"></div>
             <button class="qr-button" onclick="downloadQRCode()">Download QR Code</button>
         </div>
+
+        <div id="sendTicketContainer">
+            <h3>Send Family Ticket</h3>
+            <label for="sendUsername">Enter Username:</label>
+            <input type="text" id="sendUsername" placeholder="Username" required>
+            <button class="send-button" onclick="sendTicket()">Send Ticket</button>
+            <p id="sendMessage"></p>
+        </div>
     </main>
 
     <footer>
@@ -103,11 +142,26 @@
             let qrText = `MetroX Ticket\\nType: ${ticketType}\\nDuration: ${ticketDuration}\\nPrice: ${price}`;
             if (ticketType === "Family") {
                 qrText += `\\nFamily Members: ${familyMembers}`;
+                document.getElementById("sendTicketContainer").style.display = "block";
+            } else {
+                document.getElementById("sendTicketContainer").style.display = "none";
             }
 
             document.getElementById("qrCodeContainer").style.display = "block";
             document.getElementById("qrcode").innerHTML = "";
             new QRCode(document.getElementById("qrcode"), qrText);
+        }
+
+        function sendTicket() {
+            let username = document.getElementById("sendUsername").value.trim();
+            if (username === "") {
+                document.getElementById("sendMessage").innerText = "Please enter a username.";
+                document.getElementById("sendMessage").style.color = "red";
+                return;
+            }
+
+            document.getElementById("sendMessage").innerText = `Family Ticket sent to @${username}!`;
+            document.getElementById("sendMessage").style.color = "green";
         }
 
         function downloadQRCode() {
