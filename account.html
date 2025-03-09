@@ -9,25 +9,39 @@
       nav {
         display: none; /* Initially hidden */
       }
+      .profile-container, #edit-form {
+        background: #f4f4f4;
+        padding: 20px;
+        width: 300px;
+        margin: 20px auto;
+        border-radius: 5px;
+      }
+      
+      
+      
+      img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 10px;
+      }
+      #edit-form {
+        display: none; /* Initially hidden */
+      }
     </style>
   </head>
   <body>
     <header>
-      <img
-        src="logo.png"
-        alt="MetroX Logo"
-        style="width: 400px; height: 100px; object-fit: contain"
-      />
+      <img src="logo.png" alt="MetroX Logo" style="width: 400px; height: 100px; object-fit: contain;" />
       <nav id="nav-link">
         <ul>
           <li><a href="homepage.html">Home</a></li>
           <li><a href="viewTickets.html">Your tickets</a></li>
           <li><a href="journey.html">Journey Planning</a></li>
           <li><a href="metroStatus.html">Status</a></li>
-          <li>
-            <a href="searchStation.html">Stations</a>
-          </li>
-          <li></li><a href="alerts.html">Alerts</a></li>
+          <li><a href="searchStation.html">Stations</a></li>
+          <li><a href="alerts.html">Alerts</a></li>
           <li><a href="buyTicket.html">Buy tickets</a></li>
           <li><a href="#" id="logout-link">Logout</a></li>
         </ul>
@@ -35,36 +49,15 @@
     </header>
 
     <main>
-      <form id="login-form">
-        <h2>Login</h2>
-        <label for="login-username">Username:</label>
-        <input type="text" id="login-username" required />
-
-        <label for="login-password">Password:</label>
-        <input type="password" id="login-password" required />
-
-        <button type="submit">Login</button>
-      </form>
-
-      <div id="profile" style="display: none">
-        <img
-          id="profile-pic"
-          src="profile.png"
-          alt="Profile Picture"
-          style="
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-          "
-        />
+      <div id="profile" class="profile-container">
+        <img id="profile-pic" src="profile.png" alt="Profile Picture" />
         <h2>Welcome <span id="profile-username"></span></h2>
         <p><strong>Email:</strong> <span id="profile-email"></span></p>
         <p><strong>Phone Number:</strong> <span id="profile-phone"></span></p>
         <button id="edit-button">Edit</button>
       </div>
 
-      <div id="edit-form" style="display: none">
+      <div id="edit-form">
         <h2>Edit Profile</h2>
         <form id="profile-edit-form">
           <label for="edit-username">Username:</label>
@@ -80,6 +73,7 @@
           <input type="file" id="edit-pic" accept="image/*" />
 
           <button type="submit">Save Changes</button>
+          <button type="button" id="cancel-edit">Cancel</button>
         </form>
       </div>
     </main>
@@ -115,68 +109,80 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        const loginForm = document.getElementById("login-form");
+        const navLink = document.getElementById("nav-link");
         const profile = document.getElementById("profile");
-        const editForm = document.getElementById("edit-form");
         const profileUsername = document.getElementById("profile-username");
         const profileEmail = document.getElementById("profile-email");
         const profilePhone = document.getElementById("profile-phone");
-        const navLink = document.getElementById("nav-link");
+        const profilePic = document.getElementById("profile-pic");
 
-        loginForm.addEventListener("submit", function (event) {
-          event.preventDefault();
-          const username = document.getElementById("login-username").value;
-          const password = document.getElementById("login-password").value;
+        const editButton = document.getElementById("edit-button");
+        const editForm = document.getElementById("edit-form");
+        const editUsername = document.getElementById("edit-username");
+        const editEmail = document.getElementById("edit-email");
+        const editPhone = document.getElementById("edit-phone");
+        const editPic = document.getElementById("edit-pic");
 
-          // Simulating successful login
-          profileUsername.textContent = username;
-          profileEmail.textContent = "johndoe@example.com";
-          profilePhone.textContent = "123-456-7890";
-          loginForm.style.display = "none";
-          profile.style.display = "block";
-          navLink.style.display = "block"; // Show navigation on login
+        // Redirect to login if not logged in
+        if (localStorage.getItem("isLoggedIn") !== "true") {
+          window.location.href = "login.html";
+        } else {
+          // Load user data
+          profileUsername.textContent = localStorage.getItem("username") || "User";
+          profileEmail.textContent = localStorage.getItem("email") || "Not provided";
+          profilePhone.textContent = localStorage.getItem("phone") || "Not provided";
+          const storedPic = localStorage.getItem("profilePic");
+          if (storedPic) profilePic.src = storedPic;
+
+          // Show navigation
+          navLink.style.display = "block";
+        }
+
+        // Open Edit Form
+        editButton.addEventListener("click", function () {
+          editForm.style.display = "block";
+          editUsername.value = profileUsername.textContent;
+          editEmail.value = profileEmail.textContent;
+          editPhone.value = profilePhone.textContent;
         });
 
-        document
-          .getElementById("logout-link")
-          .addEventListener("click", function (event) {
-            event.preventDefault();
-            loginForm.style.display = "block";
-            profile.style.display = "none";
-            editForm.style.display = "none";
-            navLink.style.display = "none"; // Hide navigation on logout
+        // Save Changes
+        document.getElementById("profile-edit-form").addEventListener("submit", function (event) {
+          event.preventDefault();
+          profileUsername.textContent = editUsername.value;
+          profileEmail.textContent = editEmail.value;
+          profilePhone.textContent = editPhone.value;
 
-            // Clear profile information
-            profileUsername.textContent = "";
-            profileEmail.textContent = "";
-            profilePhone.textContent = "";
-          });
+          localStorage.setItem("username", editUsername.value);
+          localStorage.setItem("email", editEmail.value);
+          localStorage.setItem("phone", editPhone.value);
 
-        document
-          .getElementById("edit-button")
-          .addEventListener("click", function () {
-            editForm.style.display = "block";
-            document.getElementById("edit-username").value =
-              profileUsername.textContent;
-            document.getElementById("edit-email").value =
-              profileEmail.textContent;
-            document.getElementById("edit-phone").value =
-              profilePhone.textContent;
-          });
+          // Handle Profile Picture Upload
+          const file = editPic.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              profilePic.src = e.target.result;
+              localStorage.setItem("profilePic", e.target.result);
+            };
+            reader.readAsDataURL(file);
+          }
 
-        document
-          .getElementById("profile-edit-form")
-          .addEventListener("submit", function (event) {
-            event.preventDefault();
-            profileUsername.textContent =
-              document.getElementById("edit-username").value;
-            profileEmail.textContent =
-              document.getElementById("edit-email").value;
-            profilePhone.textContent =
-              document.getElementById("edit-phone").value;
-            editForm.style.display = "none";
-            alert("Profile updated successfully!");
-          });
+          editForm.style.display = "none";
+          alert("Profile updated successfully!");
+        });
+
+        // Cancel Edit
+        document.getElementById("cancel-edit").addEventListener("click", function () {
+          editForm.style.display = "none";
+        });
+
+        // Logout Function
+        document.getElementById("logout-link").addEventListener("click", function (event) {
+          event.preventDefault();
+          localStorage.clear();
+          window.location.href = "login.html";
+        });
       });
     </script>
   </body>

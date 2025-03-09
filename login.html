@@ -3,42 +3,29 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MetroX - Home</title>
+    <title>Login - MetroX</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <header>
+      <h1>Login to MetroX</h1>
       <img
         src="logo.png"
         alt="MetroX Logo"
         style="width: 400px; height: 100px; object-fit: contain"
       />
-      <nav>
-        <ul>
-          <li><a href="homepage.html">Home</a></li>
-          <li><a href="viewTickets.html">Your tickets</a></li>
-          <li><a href="journey.html">Journey Planning</a></li>
-          <li><a href="metroStatus.html">Status</a></li>
-          <li>
-            <a href="searchStation.html">Stations</a>
-          </li>
-          <li><a href="alerts.html">Alerts</a></li>
-          <li><a href="buyTicket.html">Buy tickets</a></li>
-          <li><a href="#" id="logout-link">Logout</a></li>
-        </ul>
-      </nav>
     </header>
-
     <main>
-      <h2>MetroX - The Future of Smart Metro</h2>
-      <p>
-        Get real-time metro updates, plan your journey, and manage your tickets
-        with ease.
-      </p>
-      <a href="metroStatus.html" class="btn">Check Metro Status</a>
-      <a href="buyTicket.html" class="btn">Buy Tickets</a>
+        <h2>Login to your Account</h2>
+      <form id="login-form">
+        <label for="login-username">Username:</label>
+        <input type="text" id="login-username" required />
+        <label for="login-password">Password:</label>
+        <input type="password" id="login-password" required />
+        <button type="submit">Login</button>
+      </form>
+      <p>Don't have an account? <a href="register.html">Registe here</a></p>
     </main>
-
     <footer>
       <div class="footer-content">
         <div class="footer-section about">
@@ -68,20 +55,28 @@
       </div>
     </footer>
     <script>
-        document
-          .getElementById("logout-link")
-          .addEventListener("click", function (event) {
-            event.preventDefault();
-            loginForm.style.display = "block";
-            profile.style.display = "none";
-            editForm.style.display = "none";
-            navLink.style.display = "none"; // Hide navigation on logout
+      document.addEventListener("DOMContentLoaded", function () {
+        // Check if already logged in and redirect
+        if (localStorage.getItem("isLoggedIn") === "true") {
+          window.location.href = "account.html";
+        }
 
-            // Clear profile information
-            profileUsername.textContent = "";
-            profileEmail.textContent = "";
-            profilePhone.textContent = "";
+        document
+          .getElementById("login-form")
+          .addEventListener("submit", function (event) {
+            event.preventDefault();
+            const username = document.getElementById("login-username").value;
+
+            // Simulating login success
+            localStorage.setItem("isLoggedIn", "true");
+            localStorage.setItem("username", username);
+            localStorage.setItem("email", "johndoe@example.com");
+            localStorage.setItem("phone", "123-456-7890");
+
+            // Redirect to account page
+            window.location.href = "account.html";
           });
+      });
     </script>
   </body>
 </html>
