@@ -74,16 +74,20 @@
       </footer>
 
     <script>
-      document
-        .getElementById("journey-form")
-        .addEventListener("submit", function (event) {
-          event.preventDefault();
-          document.getElementById("journey-result").innerHTML =
-            "<p>Showing best route from " +
-            document.getElementById("start").value +
-            " to " +
-            document.getElementById("destination").value +
-            "</p>";
+        document.getElementById("journey-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const start = document.getElementById("start").value;
+            const destination = document.getElementById("destination").value;
+            if (start === destination) {
+                document.getElementById("journey-result").innerHTML = "<p class='error'>Start and destination cannot be the same.</p>";
+            } else {
+                document.getElementById("journey-result").innerHTML = `
+                    <h3>Best Route</h3>
+                    <p>From: ${start}</p>
+                    <p>To: ${destination}</p>
+                    <p>Estimated Time: 25 mins (Real-time updates coming soon!)</p>
+                `;
+            }
         });
     </script>
   </body>
