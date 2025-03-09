@@ -33,14 +33,20 @@
     <main>
       <h2>Plan Your Metro Journey</h2>
       <form id="journey-form">
-        <label for="start">Starting Station:</label>
-        <input type="text" id="start" required />
-
-        <label for="destination">Destination Station:</label>
-        <input type="text" id="destination" required />
-
-        <button type="submit">Find Route</button>
-      </form>
+            <label for="start">Starting Station:</label>
+            <input type="text" id="start" list="stations" required>
+            
+            <label for="destination">Destination Station:</label>
+            <input type="text" id="destination" list="stations" required>
+            
+            <datalist id="stations">
+                <option value="Riyadh Season Station">
+                <option value="Kingdom Centre Station">
+                <option value="Central Station">
+            </datalist>
+            
+            <button type="submit">Find Route</button>
+        </form>
       <div id="journey-result"></div>
     </main>
 
