@@ -9,16 +9,15 @@
       nav {
         display: none; /* Initially hidden */
       }
-      .profile-container, #edit-form {
+      .profile-container,
+      #edit-form {
         background: #f4f4f4;
         padding: 20px;
         width: 300px;
         margin: 20px auto;
         border-radius: 5px;
       }
-      
-      
-      
+
       img {
         width: 100px;
         height: 100px;
@@ -33,7 +32,11 @@
   </head>
   <body>
     <header>
-      <img src="logo.png" alt="MetroX Logo" style="width: 400px; height: 100px; object-fit: contain;" />
+      <img
+        src="logo.png"
+        alt="MetroX Logo"
+        style="width: 400px; height: 100px; object-fit: contain"
+      />
       <nav id="nav-link">
         <ul>
           <li><a href="homepage.html">Home</a></li>
@@ -43,6 +46,7 @@
           <li><a href="searchStation.html">Stations</a></li>
           <li><a href="alerts.html">Alerts</a></li>
           <li><a href="buyTicket.html">Buy tickets</a></li>
+          <li><a href="account.html">My account</a></li>
           <li><a href="#" id="logout-link">Logout</a></li>
         </ul>
       </nav>
@@ -128,9 +132,12 @@
           window.location.href = "login.html";
         } else {
           // Load user data
-          profileUsername.textContent = localStorage.getItem("username") || "User";
-          profileEmail.textContent = localStorage.getItem("email") || "Not provided";
-          profilePhone.textContent = localStorage.getItem("phone") || "Not provided";
+          profileUsername.textContent =
+            localStorage.getItem("username") || "User";
+          profileEmail.textContent =
+            localStorage.getItem("email") || "Not provided";
+          profilePhone.textContent =
+            localStorage.getItem("phone") || "Not provided";
           const storedPic = localStorage.getItem("profilePic");
           if (storedPic) profilePic.src = storedPic;
 
@@ -147,42 +154,48 @@
         });
 
         // Save Changes
-        document.getElementById("profile-edit-form").addEventListener("submit", function (event) {
-          event.preventDefault();
-          profileUsername.textContent = editUsername.value;
-          profileEmail.textContent = editEmail.value;
-          profilePhone.textContent = editPhone.value;
+        document
+          .getElementById("profile-edit-form")
+          .addEventListener("submit", function (event) {
+            event.preventDefault();
+            profileUsername.textContent = editUsername.value;
+            profileEmail.textContent = editEmail.value;
+            profilePhone.textContent = editPhone.value;
 
-          localStorage.setItem("username", editUsername.value);
-          localStorage.setItem("email", editEmail.value);
-          localStorage.setItem("phone", editPhone.value);
+            localStorage.setItem("username", editUsername.value);
+            localStorage.setItem("email", editEmail.value);
+            localStorage.setItem("phone", editPhone.value);
 
-          // Handle Profile Picture Upload
-          const file = editPic.files[0];
-          if (file) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-              profilePic.src = e.target.result;
-              localStorage.setItem("profilePic", e.target.result);
-            };
-            reader.readAsDataURL(file);
-          }
+            // Handle Profile Picture Upload
+            const file = editPic.files[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onload = function (e) {
+                profilePic.src = e.target.result;
+                localStorage.setItem("profilePic", e.target.result);
+              };
+              reader.readAsDataURL(file);
+            }
 
-          editForm.style.display = "none";
-          alert("Profile updated successfully!");
-        });
+            editForm.style.display = "none";
+            alert("Profile updated successfully!");
+          });
 
         // Cancel Edit
-        document.getElementById("cancel-edit").addEventListener("click", function () {
-          editForm.style.display = "none";
-        });
+        document
+          .getElementById("cancel-edit")
+          .addEventListener("click", function () {
+            editForm.style.display = "none";
+          });
 
         // Logout Function
-        document.getElementById("logout-link").addEventListener("click", function (event) {
-          event.preventDefault();
-          localStorage.clear();
-          window.location.href = "login.html";
-        });
+        document
+          .getElementById("logout-link")
+          .addEventListener("click", function (event) {
+            event.preventDefault();
+            localStorage.clear();
+            window.location.href = "login.html";
+          });
       });
     </script>
   </body>
