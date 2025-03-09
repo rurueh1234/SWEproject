@@ -1,38 +1,191 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Metro Alerts - MetroX</title>
-    <link rel="stylesheet" href="styles.css">
-    <script defer src="scripts.js"></script>
-</head>
-<body>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+  
+.msg {
+  background-color: #c6c6f833;
+}
+
+.alert-message {
+  font-size: 15px;
+  font-weight: 500;
+  padding: 12px 18px;
+  border-radius: 8px;
+  background: #f9f9f9;
+  color: #333;
+  box-shadow: inset 0px 0px 8px rgba(0, 0, 0, 0.08);
+}
+
+.alert-table tbody tr:hover {
+  background-color: rgba(0, 71, 171, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+  .alert-table th,
+  .alert-table td {
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .alert-type {
+    min-width: 100px;
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+    </style>
+  </head>
+  <body>
+    
+
     <header>
-        <h1>Metro Alerts</h1>
-        <nav>
-            <ul>
-                <li><a href="homepage.html">Home</a></li>
-                <li><a href="metroStatus.html">Metro Status</a></li>
-            </ul>
-        </nav>
-    </header>
-    
+      <img src="logo.png" alt="MetroX Logo" style="width: 400px; height: 100px; object-fit: contain;">
+
+      <nav>
+          <ul>
+              <li><a href="register.html">Register</a></li>
+              <li><a href="account.html">Account</a></li>
+              <li><a href="metroStatus.html">Status</a></li>
+              <li><a href="searchStation.html">Stations</a></li>
+              <li><a href="alerts.html">Alerts</a></li>
+              <li><a href="buyTicket.html">Buy</a></li>
+          </ul>
+      </nav>
+  </header>
+
+
     <main>
-        <h2>Live Metro Alerts</h2>
-        <p>Stay informed about station closures and schedule changes.</p>
-        <ul id="alert-list">
-            <li>Central Station - Closed for maintenance until 5 PM.</li>
-            <li>Green Park - Schedule changed due to delays.</li>
-        </ul>
+      <h2>Live Metro Alerts</h2>
+      <p>Stay informed about station closures and schedule changes.</p>
+
+      <table class="alert-table">
+        <thead>
+          <tr>
+            <th>Station</th>
+            <th>Alert Message</th>
+          </tr>
+        </thead>
+        <tbody id="alert-table-body">
+          <!-- Alerts will be dynamically loaded here -->
+        </tbody>
+      </table>
     </main>
-    
+
+
     <footer>
-        <p>&copy; 2025 MetroX. All rights reserved.</p>
-    </footer>
-    
+      <div class="footer-content">
+          <div class="footer-section about">
+              <h3>About MetroX</h3>
+              <p>MetroX is dedicated to providing real-time metro updates, journey planning, and ticket management for a seamless travel experience.</p>
+          </div>
+          
+          <div class="footer-section contact">
+              <h3>Contact Us</h3>
+              <p>Email: support@metrox.com</p>
+              <p>Phone: +1 (123) 456-7890</p>
+          </div>
+  
+          <div class="footer-section social">
+              <h3>Follow Us</h3>
+              <a href="#" target="_blank">Facebook</a>
+              <a href="#" target="_blank">Twitter</a>
+              <a href="#" target="_blank">Instagram</a>
+          </div>
+      </div>
+      
+      <div class="footer-bottom">
+          <p>&copy; 2025 MetroX. All rights reserved.</p>
+      </div>
+  </footer>
+
     <script>
-        console.log("Alerts page loaded.");
+      document.addEventListener("DOMContentLoaded", function () {
+        if (document.getElementById("alert-table-body")) {
+          loadAlerts();
+        }
+        
+        if (
+          document.getElementById("starting-station") &&
+          document.getElementById("destination-station")
+        ) {
+          loadStations();
+        }
+      });
+
+      
+      function loadAlerts() {
+        const alerts = [
+          {
+            station: "Riyadh Season Station",
+            message: "Normal operations.",
+            type: "Info",
+          },
+          {
+            station: "Kingdom Centre Station",
+            message: "Increased passenger flow expected.",
+            type: "Crowd Control",
+          },
+          {
+            station: "Central Station",
+            message: "Technical issue causing minor delays.",
+            type: "Technical Issue",
+          },
+          {
+            station: "KAFD",
+            message: "Power outage affecting service.",
+            type: "Power Issue",
+          },
+        ];
+
+        const alertTableBody = document.getElementById("alert-table-body");
+        alertTableBody.innerHTML = "";
+
+        alerts.forEach((alert) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${alert.station}</td>
+            <td class="msg">${alert.message}</td>
+        `;
+          alertTableBody.appendChild(row);
+        });
+
+        console.log("Alerts updated with real-time Riyadh Metro data.");
+      }
+
+      
+      function loadStations() {
+        const stations = [
+          "Riyadh Season Station",
+          "Kingdom Centre Station",
+          "Central Station",
+          "KAFD",
+        ];
+
+        const startingStationSelect =
+          document.getElementById("starting-station");
+        const destinationStationSelect = document.getElementById(
+          "destination-station"
+        );
+
+        stations.forEach((station) => {
+          let option1 = document.createElement("option");
+          option1.value = station;
+          option1.textContent = station;
+          startingStationSelect.appendChild(option1);
+
+          let option2 = document.createElement("option");
+          option2.value = station;
+          option2.textContent = station;
+          destinationStationSelect.appendChild(option2);
+        });
+
+        console.log("Stations loaded in dropdowns.");
+      }
     </script>
-</body>
+  </body>
 </html>
