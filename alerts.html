@@ -39,6 +39,11 @@
     </style>
   </head>
   <body>
+    <script>
+      if (localStorage.getItem("isLoggedIn") !== "true") {
+        window.location.href = "login.html"; // Redirect to login if not logged in
+      }
+    </script>
     <header>
       <img
         src="logo.png"
@@ -56,6 +61,7 @@
           </li>
           <li><a href="alerts.html">Alerts</a></li>
           <li><a href="buyTicket.html">Buy tickets</a></li>
+          <li><a href="account.html">My account</a></li>
           <li><a href="#" id="logout-link">Logout</a></li>
         </ul>
       </nav>
@@ -188,6 +194,17 @@
 
         console.log("Stations loaded in dropdowns.");
       }
+      document.addEventListener("DOMContentLoaded", function () {
+        const logoutButton = document.getElementById("logout-link");
+
+        if (logoutButton) {
+          logoutButton.addEventListener("click", function (event) {
+            event.preventDefault();
+            localStorage.clear(); // Clear login session
+            window.location.href = "login.html"; // Redirect to login page
+          });
+        }
+      });
     </script>
   </body>
 </html>

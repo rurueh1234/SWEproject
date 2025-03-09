@@ -48,6 +48,11 @@
   </head>
 
   <body>
+    <script>
+      if (localStorage.getItem("isLoggedIn") !== "true") {
+        window.location.href = "login.html"; // Redirect to login if not logged in
+      }
+    </script>
     <header>
       <img
         src="logo.png"
@@ -207,6 +212,17 @@
 
         console.log("Stations loaded in dropdowns.");
       }
+      document.addEventListener("DOMContentLoaded", function () {
+        const logoutButton = document.getElementById("logout-link");
+
+        if (logoutButton) {
+          logoutButton.addEventListener("click", function (event) {
+            event.preventDefault();
+            localStorage.clear(); // Clear login session
+            window.location.href = "login.html"; // Redirect to login page
+          });
+        }
+      });
     </script>
   </body>
 </html>
