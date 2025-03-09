@@ -6,58 +6,60 @@
     <title>Metro Alerts - MetroX</title>
     <link rel="stylesheet" href="styles.css" />
     <style>
-  
-.msg {
-  background-color: #c6c6f833;
-}
+      .msg {
+        background-color: #c6c6f833;
+      }
 
-.alert-message {
-  font-size: 15px;
-  font-weight: 500;
-  padding: 12px 18px;
-  border-radius: 8px;
-  background: #f9f9f9;
-  color: #333;
-  box-shadow: inset 0px 0px 8px rgba(0, 0, 0, 0.08);
-}
+      .alert-message {
+        font-size: 15px;
+        font-weight: 500;
+        padding: 12px 18px;
+        border-radius: 8px;
+        background: #f9f9f9;
+        color: #333;
+        box-shadow: inset 0px 0px 8px rgba(0, 0, 0, 0.08);
+      }
 
-.alert-table tbody tr:hover {
-  background-color: rgba(0, 71, 171, 0.1);
-  transition: background-color 0.3s ease;
-}
+      .alert-table tbody tr:hover {
+        background-color: rgba(0, 71, 171, 0.1);
+        transition: background-color 0.3s ease;
+      }
 
-  .alert-table th,
-  .alert-table td {
-    padding: 12px;
-    font-size: 14px;
-  }
+      .alert-table th,
+      .alert-table td {
+        padding: 12px;
+        font-size: 14px;
+      }
 
-  .alert-type {
-    min-width: 100px;
-    padding: 6px 12px;
-    font-size: 12px;
-  }
-
+      .alert-type {
+        min-width: 100px;
+        padding: 6px 12px;
+        font-size: 12px;
+      }
     </style>
   </head>
   <body>
-    
-
     <header>
-      <img src="logo.png" alt="MetroX Logo" style="width: 400px; height: 100px; object-fit: contain;">
-
+      <img
+        src="logo.png"
+        alt="MetroX Logo"
+        style="width: 400px; height: 100px; object-fit: contain"
+      />
       <nav>
-          <ul>
-              <li><a href="register.html">Register</a></li>
-              <li><a href="account.html">Account</a></li>
-              <li><a href="metroStatus.html">Status</a></li>
-              <li><a href="searchStation.html">Stations</a></li>
-              <li><a href="alerts.html">Alerts</a></li>
-              <li><a href="buyTicket.html">Buy</a></li>
-          </ul>
+        <ul>
+          <li><a href="homepage.html">Home</a></li>
+          <li><a href="viewTickets.html">Your tickets</a></li>
+          <li><a href="journey.html">Journey Planning</a></li>
+          <li><a href="metroStatus.html">Status</a></li>
+          <li>
+            <a href="searchStation.html">Stations</a>
+          </li>
+          <li><a href="alerts.html">Alerts</a></li>
+          <li><a href="buyTicket.html">Buy tickets</a></li>
+          <li><a href="#" id="logout-link">Logout</a></li>
+        </ul>
       </nav>
-  </header>
-
+    </header>
 
     <main>
       <h2>Live Metro Alerts</h2>
@@ -76,39 +78,41 @@
       </table>
     </main>
 
-
     <footer>
       <div class="footer-content">
-          <div class="footer-section about">
-              <h3>About MetroX</h3>
-              <p>MetroX is dedicated to providing real-time metro updates, journey planning, and ticket management for a seamless travel experience.</p>
-          </div>
-          
-          <div class="footer-section contact">
-              <h3>Contact Us</h3>
-              <p>Email: support@metrox.com</p>
-              <p>Phone: +1 (123) 456-7890</p>
-          </div>
-  
-          <div class="footer-section social">
-              <h3>Follow Us</h3>
-              <a href="#" target="_blank">Facebook</a>
-              <a href="#" target="_blank">Twitter</a>
-              <a href="#" target="_blank">Instagram</a>
-          </div>
+        <div class="footer-section about">
+          <h3>About MetroX</h3>
+          <p>
+            MetroX is dedicated to providing real-time metro updates, journey
+            planning, and ticket management for a seamless travel experience.
+          </p>
+        </div>
+
+        <div class="footer-section contact">
+          <h3>Contact Us</h3>
+          <p>Email: support@metrox.com</p>
+          <p>Phone: +1 (123) 456-7890</p>
+        </div>
+
+        <div class="footer-section social">
+          <h3>Follow Us</h3>
+          <a href="#" target="_blank">Facebook</a>
+          <a href="#" target="_blank">Twitter</a>
+          <a href="#" target="_blank">Instagram</a>
+        </div>
       </div>
-      
+
       <div class="footer-bottom">
-          <p>&copy; 2025 MetroX. All rights reserved.</p>
+        <p>&copy; 2025 MetroX. All rights reserved.</p>
       </div>
-  </footer>
+    </footer>
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         if (document.getElementById("alert-table-body")) {
           loadAlerts();
         }
-        
+
         if (
           document.getElementById("starting-station") &&
           document.getElementById("destination-station")
@@ -117,7 +121,6 @@
         }
       });
 
-      
       function loadAlerts() {
         const alerts = [
           {
@@ -157,7 +160,6 @@
         console.log("Alerts updated with real-time Riyadh Metro data.");
       }
 
-      
       function loadStations() {
         const stations = [
           "Riyadh Season Station",

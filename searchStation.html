@@ -1,44 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Search Station - MetroX</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css" />
     <script defer src="scripts.js"></script>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <h1>Search Metro Station</h1>
-        <nav>
-            <ul>
-                <li><a href="homepage.html">Home</a></li>
-                <li><a href="journey.html">Journey Planning</a></li>
-            </ul>
-        </nav>
+      <img
+        src="logo.png"
+        alt="MetroX Logo"
+        style="width: 400px; height: 100px; object-fit: contain"
+      />
+      <nav>
+        <ul>
+          <li><a href="homepage.html">Home</a></li>
+          <li><a href="viewTickets.html">Your tickets</a></li>
+          <li><a href="journey.html">Journey Planning</a></li>
+          <li><a href="metroStatus.html">Status</a></li>
+          <li>
+            <a href="searchStation.html">Stations</a>
+          </li>
+          <li><a href="alerts.html">Alerts</a></li>
+          <li><a href="buyTicket.html">Buy tickets</a></li>
+          <li><a href="#" id="logout-link">Logout</a></li>
+        </ul>
+      </nav>
     </header>
-    
+
     <main>
-        <h2>Find the Nearest Metro Station</h2>
-        <form id="search-form">
-            <label for="location">Enter Your Location:</label>
-            <input type="text" id="location" required>
-            
-            <button type="submit">Find Station</button>
-        </form>
-        <div id="search-result"></div>
+      <h2>Find the Nearest Metro Station</h2>
+      <form id="search-form">
+        <label for="location">Enter Your Location:</label>
+        <input type="text" id="location" required />
+
+        <button type="submit">Find Station</button>
+      </form>
+      <div id="search-result"></div>
     </main>
-    
+
     <footer>
-        <p>&copy; 2025 MetroX. All rights reserved.</p>
-    </footer>
-    
+        <div class="footer-content">
+          <div class="footer-section about">
+            <h3>About MetroX</h3>
+            <p>
+              MetroX is dedicated to providing real-time metro updates, journey
+              planning, and ticket management for a seamless travel experience.
+            </p>
+          </div>
+  
+          <div class="footer-section contact">
+            <h3>Contact Us</h3>
+            <p>Email: support@metrox.com</p>
+            <p>Phone: +1 (123) 456-7890</p>
+          </div>
+  
+          <div class="footer-section social">
+            <h3>Follow Us</h3>
+            <a href="#" target="_blank">Facebook</a>
+            <a href="#" target="_blank">Twitter</a>
+            <a href="#" target="_blank">Instagram</a>
+          </div>
+        </div>
+  
+        <div class="footer-bottom">
+          <p>&copy; 2025 MetroX. All rights reserved.</p>
+        </div>
+      </footer>
+
     <script>
-        document.getElementById("search-form").addEventListener("submit", function(event) {
-            event.preventDefault();
-            document.getElementById("search-result").innerHTML = "<p>Nearest station to " + 
-                document.getElementById("location").value + " is Central Station</p>";
+      document
+        .getElementById("search-form")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+          document.getElementById("search-result").innerHTML =
+            "<p>Nearest station to " +
+            document.getElementById("location").value +
+            " is Central Station</p>";
         });
     </script>
-</body>
+  </body>
 </html>
