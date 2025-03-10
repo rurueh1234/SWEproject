@@ -9,8 +9,8 @@ MetroX is a comprehensive metro management system designed to enhance user exper
 	•	Instant notifications for updates and alerts
     Usage
 	•	Booking Tickets:
-	Navigate to the “Book Tickets” section and enter your journey details.
+	Navigate to the “Buy Tickets” section and enter your journey details.
 	•	Tracking Metro Status:
-	View live metro updates in the “Metro Status” section.
+	View live metro updates in the “Status” section.
 	•	Planning Journeys:
 	Use the journey planner tool to find the best route to your destination.
