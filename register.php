@@ -1,21 +1,21 @@
 <?php
 session_start();
-require 'db.php'; // Include database connection
+require 'db.php'; 
 
-$message = ""; // Store messages to display
+$message = ""; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = trim($_POST["username"]);
     $email = trim($_POST["email"]);
     $password = trim($_POST["password"]);
 
-    // Basic validation
+    
     if (empty($username) || empty($email) || empty($password)) {
         $message = "All fields are required.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $message = "Invalid email format.";
     } else {
-        // Check if email already exists
+    
         $stmt = $conn->prepare("SELECT * FROM commuter WHERE email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
@@ -24,10 +24,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($result->num_rows > 0) {
             $message = "Email is already registered.";
         } else {
-            // Hash password
+            
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-            // Insert user into the database
+            
             $stmt = $conn->prepare("INSERT INTO commuter (username, email, password) VALUES (?, ?, ?)");
             $stmt->bind_param("sss", $username, $email, $hashedPassword);
 
