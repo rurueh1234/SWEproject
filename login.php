@@ -1,18 +1,18 @@
 <?php
 session_start();
-require 'db.php'; // Include database connection
+require 'db.php';
 
-$message = ""; // Store messages to display
+$message = ""; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = trim($_POST["username"]);
     $password = trim($_POST["password"]);
 
-    // Basic validation
+    
     if (empty($username) || empty($password)) {
         $message = "All fields are required.";
     } else {
-        // Check if user exists
+        
         $stmt = $conn->prepare("SELECT id, username, email, password FROM commuter WHERE username = ?");
         $stmt->bind_param("s", $username);
         $stmt->execute();
@@ -21,14 +21,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($result->num_rows === 1) {
             $user = $result->fetch_assoc();
 
-            // Verify password
+            
             if (password_verify($password, $user["password"])) {
-                // Store user data in session
+                
                 $_SESSION["user_id"] = $user["id"];
                 $_SESSION["username"] = $user["username"];
                 $_SESSION["email"] = $user["email"];
 
-                // Redirect to account page
+                
                 header("Location: account.php");
                 exit();
             } else {
