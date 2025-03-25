@@ -1,51 +1,47 @@
 <?php
 session_start();
-require 'db_connect.php'; // Connect to database
+require 'db.php'; // Include database connection
 
-$errors = [];
-$success = "";
+$message = ""; // Store messages to display
 
-// Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = trim($_POST['username']);
-    $email = trim($_POST['email']);
-    $password = $_POST['password'];
+    $username = trim($_POST["username"]);
+    $email = trim($_POST["email"]);
+    $password = trim($_POST["password"]);
 
     // Basic validation
     if (empty($username) || empty($email) || empty($password)) {
-        $errors[] = "All fields are required!";
+        $message = "All fields are required.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors[] = "Invalid email format!";
+        $message = "Invalid email format.";
     } else {
         // Check if email already exists
-        $query = "SELECT id FROM users WHERE email = ?";
-        $stmt = $conn->prepare($query);
+        $stmt = $conn->prepare("SELECT * FROM commuter WHERE email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
-        $stmt->store_result();
-        if ($stmt->num_rows > 0) {
-            $errors[] = "Email already registered!";
-        }
-        $stmt->close();
-    }
+        $result = $stmt->get_result();
 
-    // If no errors, insert new user
-    if (empty($errors)) {
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $insert_query = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
-        $stmt = $conn->prepare($insert_query);
-        $stmt->bind_param("sss", $username, $email, $hashed_password);
-
-        if ($stmt->execute()) {
-            $success = "Registration successful! <a href='login.php'>Login here</a>";
+        if ($result->num_rows > 0) {
+            $message = "Email is already registered.";
         } else {
-            $errors[] = "Registration failed!";
+            // Hash password
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+            // Insert user into the database
+            $stmt = $conn->prepare("INSERT INTO commuter (username, email, password) VALUES (?, ?, ?)");
+            $stmt->bind_param("sss", $username, $email, $hashedPassword);
+
+            if ($stmt->execute()) {
+                $message = "Registration successful! You can now <a href='account.html'>login here</a>.";
+            } else {
+                $message = "Registration failed. Please try again.";
+            }
         }
+
         $stmt->close();
     }
+    $conn->close();
 }
-
-$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -59,53 +55,40 @@ $conn->close();
 <body>
     <header>
         <h1>Register for MetroX</h1>
-        <img src="logo.png" alt="MetroX Logo" style="width: 400px; height: 100px;">
+        <img src="logo.png" alt="MetroX Logo" style="width: 400px; height: 100px; object-fit: contain">
     </header>
-
     <main>
         <h2>Create an Account</h2>
+        <?php if (!empty($message)) echo "<p style='color:red;'>$message</p>"; ?>
 
-        <?php if (!empty($errors)): ?>
-            <div class="error">
-                <ul>
-                    <?php foreach ($errors as $error) echo "<li>$error</li>"; ?>
-                </ul>
-            </div>
-        <?php endif; ?>
-
-        <?php if ($success): ?>
-            <div class="success">
-                <p><?php echo $success; ?></p>
-            </div>
-        <?php endif; ?>
-
-        <form action="register.php" method="POST">
+        <form id="register-form" method="POST" action="register.php">
             <label for="username">Username:</label>
-            <input type="text" name="username" required>
+            <input type="text" id="username" name="username" required>
 
             <label for="email">Email:</label>
-            <input type="email" name="email" required>
+            <input type="email" id="email" name="email" required>
 
             <label for="password">Password:</label>
-            <input type="password" name="password" required>
+            <input type="password" id="password" name="password" required>
 
             <button type="submit">Register</button>
         </form>
-
-        <p>Already have an account? <a href="login.php">Login here</a></p>
+        <p>Already have an account? <a href="account.html">Login here</a></p>
     </main>
 
     <footer>
         <div class="footer-content">
             <div class="footer-section about">
                 <h3>About MetroX</h3>
-                <p>MetroX provides real-time metro updates, journey planning, and ticket management.</p>
+                <p>MetroX provides real-time metro updates, journey planning, and ticket management for a seamless travel experience.</p>
             </div>
+
             <div class="footer-section contact">
                 <h3>Contact Us</h3>
                 <p>Email: support@metrox.com</p>
                 <p>Phone: +1 (123) 456-7890</p>
             </div>
+
             <div class="footer-section social">
                 <h3>Follow Us</h3>
                 <a href="#" target="_blank">Facebook</a>
@@ -113,6 +96,7 @@ $conn->close();
                 <a href="#" target="_blank">Instagram</a>
             </div>
         </div>
+
         <div class="footer-bottom">
             <p>&copy; 2025 MetroX. All rights reserved.</p>
         </div>
