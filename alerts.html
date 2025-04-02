@@ -128,42 +128,20 @@
       });
 
       function loadAlerts() {
-        const alerts = [
-          {
-            station: "Riyadh Season Station",
-            message: "Normal operations.",
-            type: "Info",
-          },
-          {
-            station: "Kingdom Centre Station",
-            message: "Increased passenger flow expected.",
-            type: "Crowd Control",
-          },
-          {
-            station: "Central Station",
-            message: "Technical issue causing minor delays.",
-            type: "Technical Issue",
-          },
-          {
-            station: "KAFD",
-            message: "Power outage affecting service.",
-            type: "Power Issue",
-          },
-        ];
-
-        const alertTableBody = document.getElementById("alert-table-body");
-        alertTableBody.innerHTML = "";
-
-        alerts.forEach((alert) => {
-          const row = document.createElement("tr");
-          row.innerHTML = `
-            <td>${alert.station}</td>
-            <td class="msg">${alert.message}</td>
+        fetch("alerts.php")
+          .then((response) => response.json())
+          .then((alerts) => {
+            const alertTableBody = document.getElementById("alert-table-body");
+            alertTableBody.innerHTML = "";
+            alerts.forEach((alert) => {
+              const row = document.createElement("tr");
+              row.innerHTML = `
+          <td>${alert.stationName}</td>
+          <td class="msg">${alert.message}</td>
         `;
-          alertTableBody.appendChild(row);
-        });
-
-        console.log("Alerts updated with real-time Riyadh Metro data.");
+              alertTableBody.appendChild(row);
+            });
+          });
       }
 
       function loadStations() {
@@ -208,3 +186,4 @@
     </script>
   </body>
 </html>
+
