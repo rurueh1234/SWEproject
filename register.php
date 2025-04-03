@@ -1,11 +1,11 @@
 <?php
 session_start();
-require 'config.php'; 
+require 'db_connect.php'; 
 
 $message = ""; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = trim($_POST["commuterID"]);  // Updated to match database column
+    $name = trim($_POST["name"]);  // Updated to match database column
     $email = trim($_POST["email"]);
     $password = trim($_POST["password"]);
 
@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
             // Insert new user
-            $stmt = $conn->prepare("INSERT INTO commuter (commuterID, email, password) VALUES (?, ?, ?)");
+            $stmt = $conn->prepare("INSERT INTO commuter (name, email, password) VALUES (?, ?, ?)");
             $stmt->bind_param("sss", $name, $email, $hashedPassword);
 
             if ($stmt->execute()) {
