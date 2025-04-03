@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if ($stmt->execute()) {
                 // Redirect to login page after successful registration
-                header("Location: login.html?success=1");
+                header("Location: login.php?success=1");
                 exit();
             } else {
                 $message = "Registration failed. Please try again.";
