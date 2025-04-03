@@ -89,7 +89,9 @@ CREATE TABLE `station` (
   `longitude` decimal(9,6) NOT NULL,
   `street` varchar(100) DEFAULT NULL,
   `neighborhood` varchar(100) DEFAULT NULL,
-  `status` enum('open','closed') DEFAULT 'open'
+  `status` enum('open','closed') DEFAULT 'open',
+  `metroStatus` ENUM('On Time', 'Delayed', 'Cancelled') DEFAULT 'On Time'
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
