@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'db.php';
+require 'config.php';
 
 $message = ""; 
 
@@ -8,12 +8,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = trim($_POST["username"]);
     $password = trim($_POST["password"]);
 
-    
     if (empty($username) || empty($password)) {
         $message = "All fields are required.";
     } else {
-        
-        $stmt = $conn->prepare("SELECT id, username, email, password FROM commuter WHERE username = ?");
+        $stmt = $conn->prepare("SELECT commuterID, name, email, password FROM commuter WHERE name = ?");
         $stmt->bind_param("s", $username);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -21,14 +19,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($result->num_rows === 1) {
             $user = $result->fetch_assoc();
 
-            
             if (password_verify($password, $user["password"])) {
-                
-                $_SESSION["user_id"] = $user["id"];
-                $_SESSION["username"] = $user["username"];
+                // Set session variables
+                $_SESSION["user_id"] = $user["commuterID"];
+                $_SESSION["username"] = $user["name"];
                 $_SESSION["email"] = $user["email"];
 
-                
                 header("Location: account.php");
                 exit();
             } else {
@@ -59,9 +55,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </header>
     <main>
         <h2>Login to Your Account</h2>
-        <?php if (!empty($message)) echo "<p style='color:red;'>$message</p>"; ?>
+        <?php if (!empty($message)) echo "<p style='color:red;'>".htmlspecialchars($message)."</p>"; ?>
 
-        <form id="login-form" method="POST" action="login.php">
+        <form id="login-form" method="POST" action="">
             <label for="login-username">Username:</label>
             <input type="text" id="login-username" name="username" required>
 
