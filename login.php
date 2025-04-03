@@ -5,7 +5,7 @@ require 'config.php';
 $message = ""; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = trim($_POST["name"]);
+    $username = trim($_POST["username"]);
     $password = trim($_POST["password"]);
 
     if (empty($username) || empty($password)) {
