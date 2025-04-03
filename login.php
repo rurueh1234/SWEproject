@@ -58,8 +58,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php if (!empty($message)) echo "<p style='color:red;'>".htmlspecialchars($message)."</p>"; ?>
 
         <form id="login-form" method="POST" action="">
-            <label for="login-name">Username:</label>
-            <input type="text" id="login-name" name="name" required>
+            <label for="login-username">Username:</label>
+            <input type="text" id="login-username" name="username" required>
 
             <label for="login-password">Password:</label>
             <input type="password" id="login-password" name="password" required>
