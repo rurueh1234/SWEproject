@@ -1,38 +1,40 @@
 <?php
 session_start();
-require 'db.php'; 
+require 'config.php'; 
 
 $message = ""; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = trim($_POST["username"]);
+    $name = trim($_POST["username"]);  // Updated to match database column
     $email = trim($_POST["email"]);
     $password = trim($_POST["password"]);
 
-    
-    if (empty($username) || empty($email) || empty($password)) {
+    // Validate input
+    if (empty($name) || empty($email) || empty($password)) {
         $message = "All fields are required.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $message = "Invalid email format.";
     } else {
-    
-        $stmt = $conn->prepare("SELECT * FROM commuter WHERE email = ?");
+        // Check if email already exists
+        $stmt = $conn->prepare("SELECT email FROM commuter WHERE email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
-        $result = $stmt->get_result();
+        $stmt->store_result();
 
-        if ($result->num_rows > 0) {
+        if ($stmt->num_rows > 0) {
             $message = "Email is already registered.";
         } else {
-            
+            // Hash the password
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-            
-            $stmt = $conn->prepare("INSERT INTO commuter (username, email, password) VALUES (?, ?, ?)");
-            $stmt->bind_param("sss", $username, $email, $hashedPassword);
+            // Insert new user
+            $stmt = $conn->prepare("INSERT INTO commuter (name, email, password) VALUES (?, ?, ?)");
+            $stmt->bind_param("sss", $name, $email, $hashedPassword);
 
             if ($stmt->execute()) {
-                $message = "Registration successful! You can now <a href='account.html'>login here</a>.";
+                // Redirect to login page after successful registration
+                header("Location: login.html?success=1");
+                exit();
             } else {
                 $message = "Registration failed. Please try again.";
             }
@@ -62,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php if (!empty($message)) echo "<p style='color:red;'>$message</p>"; ?>
 
         <form id="register-form" method="POST" action="register.php">
-            <label for="username">Username:</label>
+            <label for="username">Full Name:</label>
             <input type="text" id="username" name="username" required>
 
             <label for="email">Email:</label>
@@ -73,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <button type="submit">Register</button>
         </form>
-        <p>Already have an account? <a href="account.html">Login here</a></p>
+        <p>Already have an account? <a href="login.html">Login here</a></p>
     </main>
 
     <footer>
