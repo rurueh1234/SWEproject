@@ -2,7 +2,7 @@
 session_start();
 require 'config.php';
 
-if (!isset($_SESSION['user'])) {
+if (!isset($_SESSION['username'])) {
     header("Location: login.html");
     exit();
 }
