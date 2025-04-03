@@ -5,7 +5,7 @@ require 'config.php';
 $message = ""; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = trim($_POST["username"]);  // Updated to match database column
+    $name = trim($_POST["commuterID"]);  // Updated to match database column
     $email = trim($_POST["email"]);
     $password = trim($_POST["password"]);
 
@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
             // Insert new user
-            $stmt = $conn->prepare("INSERT INTO commuter (name, email, password) VALUES (?, ?, ?)");
+            $stmt = $conn->prepare("INSERT INTO commuter (commuterID, email, password) VALUES (?, ?, ?)");
             $stmt->bind_param("sss", $name, $email, $hashedPassword);
 
             if ($stmt->execute()) {
@@ -75,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <button type="submit">Register</button>
         </form>
-        <p>Already have an account? <a href="login.html">Login here</a></p>
+        <p>Already have an account? <a href="login.php">Login here</a></p>
     </main>
 
     <footer>
