@@ -33,7 +33,9 @@ CREATE TABLE `commuter` (
   `email` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
   `latitude` decimal(9,6) DEFAULT NULL,
-  `longitude` decimal(9,6) DEFAULT NULL
+  `longitude` decimal(9,6) DEFAULT NULL,
+  `phone` VARCHAR(20) DEFAULT NULL,
+`profile_pic` VARCHAR(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
