@@ -7,7 +7,7 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
-$user_email = $_SESSION['user'];
+$user_email = $_SESSION['username'];
 
 $stmt = $conn->prepare("SELECT name, email, phone, profile_pic FROM commuter WHERE email = ?");
 $stmt->bind_param("s", $user_email);
