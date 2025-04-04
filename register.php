@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php if (!empty($message)) echo "<p style='color:red;'>$message</p>"; ?>
 
         <form id="register-form" method="POST" action="register.php">
-            <label for="name">Username:</label>
+            <label for="name">Username</label>
             <input type="text" id="name" name="name" required>
 
             <label for="email">Email:</label>
