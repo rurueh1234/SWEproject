@@ -78,7 +78,7 @@ $conn->close();
     <div id="edit-form">
         <h2>Edit Profile</h2>
         <form action="update_profile.php" method="post" enctype="multipart/form-data">
-            <label for="edit-name">Full Name:</label>
+            <label for="edit-name">Userame:</label>
             <input type="text" name="name" id="edit-name" value="<?php echo htmlspecialchars($name); ?>" required>
 
             <label for="edit-email">Email:</label>
