@@ -1,11 +1,20 @@
 <?php
-// Include the database configuration
 require_once 'config.php';
+session_start();
 
-// Check if the user is logged in (replicating the JavaScript check in PHP for better security)
 if (!isset($_SESSION['isLoggedIn']) || $_SESSION['isLoggedIn'] !== true) {
-    header("Location: login.html");
+    header("Location: login.php");
     exit();
+}
+
+if (isset($_GET['logout'])) {
+    session_destroy();
+    header("Location: login.php");
+    exit();
+}
+
+if (!defined('SITE_NAME')) {
+    define('SITE_NAME', 'MetroX');
 }
 ?>
 
@@ -34,8 +43,7 @@ if (!isset($_SESSION['isLoggedIn']) || $_SESSION['isLoggedIn'] !== true) {
                 <li><a href="alerts.html">Alerts</a></li>
                 <li><a href="buyTicket.html">Buy tickets</a></li>
                 <li><a href="account.html">My account</a></li>
-                <li><a href="#" id="logout-link">Logout</a></li>
-                <li><a href="logout.php">Logout</a></li>
+                <li><a href="?logout=true" id="logout-link">Logout</a></li>
             </ul>
         </nav>
     </header>
@@ -50,7 +58,6 @@ if (!isset($_SESSION['isLoggedIn']) || $_SESSION['isLoggedIn'] !== true) {
         <a href="buyTicket.html" class="btn">Buy Tickets</a>
 
         <?php
-        // Fetch and display recent alerts from the database
         try {
             $stmt = $pdo->query("SELECT message, timestamp FROM Alert ORDER BY timestamp DESC LIMIT 3");
             $alerts = $stmt->fetchAll();
@@ -107,9 +114,7 @@ if (!isset($_SESSION['isLoggedIn']) || $_SESSION['isLoggedIn'] !== true) {
 
             if (logoutButton) {
                 logoutButton.addEventListener("click", function (event) {
-                    event.preventDefault();
-                    localStorage.clear(); // Clear login session
-                    window.location.href = "login.php"; // Redirect to login page
+                    localStorage.clear();
                 });
             }
         });
