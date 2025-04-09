@@ -35,7 +35,7 @@ if (!defined('SITE_NAME')) {
         />
         <nav>
             <ul>
-                <li><a href="index.php">Home</a></li>
+                <li><a href="homepage.php">Home</a></li>
                 <li><a href="viewTickets.html">My tickets</a></li>
                 <li><a href="journey.html">Journey Planning</a></li>
                 <li><a href="metroStatus.html">Status</a></li>
