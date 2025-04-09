@@ -5,7 +5,7 @@ require 'config.php';
 $message = ""; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = trim($_POST["name"]);  // Updated to match database column
+    $name = trim($_POST["name"]);
     $email = trim($_POST["email"]);
     $password = trim($_POST["password"]);
 
@@ -24,15 +24,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($stmt->num_rows > 0) {
             $message = "Email is already registered.";
         } else {
-            // Hash the password
+            // Hash the password and insert new user
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $stmt->close(); // Close previous statement
 
-            // Insert new user
             $stmt = $conn->prepare("INSERT INTO commuter (name, email, password) VALUES (?, ?, ?)");
             $stmt->bind_param("sss", $name, $email, $hashedPassword);
 
             if ($stmt->execute()) {
-                // Redirect to login page after successful registration
+                // Set session variables
+                $_SESSION['username'] = $name; // Store username in session
                 header("Location: login.php?success=1");
                 exit();
             } else {
