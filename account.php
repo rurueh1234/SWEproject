@@ -2,15 +2,16 @@
 session_start();
 require 'config.php';
 
-if (!isset($_SESSION['username'])) {
-    header("Location: login.html");
+if (!isset($_SESSION['user_id'])) { // Check for user_id in the session
+    header("Location: login.php");
     exit();
 }
 
-$user_email = $_SESSION['username'];
+$commuterID = $_SESSION['user_id']; // Retrieve commuterID from session
 
-$stmt = $conn->prepare("SELECT name, email, phone, profile_pic FROM commuter WHERE email = ?");
-$stmt->bind_param("s", $user_email);
+// Fetch user details
+$stmt = $conn->prepare("SELECT name, email, phone, profile_pic FROM commuter WHERE commuterID = ?");
+$stmt->bind_param("i", $commuterID);
 $stmt->execute();
 $stmt->bind_result($name, $email, $phone, $profile_pic);
 $stmt->fetch();
@@ -53,7 +54,7 @@ $conn->close();
     <img src="logo.png" alt="MetroX Logo" style="width: 400px; height: 100px; object-fit: contain">
     <nav>
         <ul>
-            <li><a href="homepage.php">Home</a></li>
+            <li><a href="homepage.html">Home</a></li>
             <li><a href="viewTickets.php">My tickets</a></li>
             <li><a href="journey.php">Journey Planning</a></li>
             <li><a href="metroStatus.php">Status</a></li>
@@ -67,19 +68,18 @@ $conn->close();
 </header>
 
 <main>
-    <div id="profile" class="profile-container">
-        <img id="profile-pic" src="<?php echo htmlspecialchars($profile_pic ?: 'profile.png'); ?>" alt="Profile Picture">
-        <h2>Welcome <span><?php echo htmlspecialchars($name); ?></span></h2>
-        <p><strong>Email:</strong> <span><?php echo htmlspecialchars($email); ?></span></p>
-        <p><strong>Phone Number:</strong> <span><?php echo htmlspecialchars($phone ?: 'Not provided'); ?></span></p>
-        <button id="edit-button">Edit</button>
-    </div>
-
+<div id="profile" class="profile-container">
+    <img id="profile-pic" src="<?php echo (!empty($profile_pic) && file_exists('uploads/' . $profile_pic)) ? 'uploads/' . htmlspecialchars($profile_pic) : 'profile.png'; ?>" alt="Profile Picture">
+    <h2>Welcome <span><?php echo htmlspecialchars($name); ?></span></h2>
+    <p><strong>Email:</strong> <span><?php echo htmlspecialchars($email); ?></span></p>
+    <p><strong>Phone Number:</strong> <span><?php echo htmlspecialchars($phone ?: 'Not provided'); ?></span></p>
+    <button id="edit-button">Edit</button>
+</div>
     <div id="edit-form">
         <h2>Edit Profile</h2>
         <form action="update_profile.php" method="post" enctype="multipart/form-data">
-            <label for="edit-username">Username:</label>
-            <input type="text" name="username" id="edit-username" value="<?php echo htmlspecialchars($name); ?>" required>
+            <label for="edit-name">Full Name:</label>
+            <input type="text" name="name" id="edit-name" value="<?php echo htmlspecialchars($name); ?>" required>
 
             <label for="edit-email">Email:</label>
             <input type="email" name="email" id="edit-email" value="<?php echo htmlspecialchars($email); ?>" required>
@@ -103,7 +103,7 @@ $conn->close();
             <p>MetroX is dedicated to providing real-time metro updates, journey planning, and ticket management for a seamless travel experience.</p>
         </div>
         <div class="footer-section contact">
-            <h3>Contact Us</h3>
+             <h3>Contact Us</h3>
             <p>Email: support@metrox.com</p>
             <p>Phone: +1 (123) 456-7890</p>
         </div>
