@@ -2,96 +2,56 @@
 session_start();
 require 'config.php';
 
-$message = ""; 
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = trim($_POST["username"]); // This should match the registered name
-    $password = trim($_POST["password"]);
-
-    if (empty($username) || empty($password)) {
-        $message = "All fields are required.";
-    } else {
-        $stmt = $conn->prepare("SELECT commuterID, name, email, password FROM commuter WHERE name = ?");
-        $stmt->bind_param("s", $username);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($result->num_rows === 1) {
-            $user = $result->fetch_assoc();
-            if (password_verify($password, $user["password"])) {
-                // Set session variables
-                $_SESSION["user_id"] = $user["commuterID"]; // Use commuterID
-                $_SESSION["username"] = $user["name"];
-                $_SESSION["email"] = $user["email"];
-
-                header("Location: account.php");
-                exit();
-            } else {
-                $message = "Invalid username or password.";
-            }
-        } else {
-            $message = "Invalid username or password.";
-        }
-
-        $stmt->close();
-    }
-    $conn->close();
+// Ensure the user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
 }
+
+$commuterID = $_SESSION['user_id']; // Get the commuter ID from the session
+$new_name = $_POST['name'];
+$new_email = $_POST['email'];
+$new_phone = $_POST['phone'];
+
+// Handle Profile Picture Upload
+$profile_pic = null;
+
+// Check if a new profile picture is being uploaded
+if (isset($_FILES['profile_pic']) && $_FILES['profile_pic']['error'] === UPLOAD_ERR_OK) {
+    $upload_dir = "uploads/";
+    $file_name = uniqid() . "_" . basename($_FILES["profile_pic"]["name"]);
+    $target_file = $upload_dir . $file_name;
+
+    // Move uploaded file to the target directory
+    if (move_uploaded_file($_FILES["profile_pic"]["tmp_name"], $target_file)) {
+        $profile_pic = $file_name; // Store the new file name for the database
+    } else {
+        echo "Error uploading file.";
+        exit(); // Exit if there is an error
+    }
+}
+
+// Update user information
+if ($profile_pic) {
+    // If a new profile picture is uploaded
+    $stmt = $conn->prepare("UPDATE commuter SET name=?, email=?, phone=?, profile_pic=? WHERE commuterID=?");
+    $stmt->bind_param("ssssi", $new_name, $new_email, $new_phone, $profile_pic, $commuterID);
+} else {
+    // If no new profile picture is uploaded, keep the existing one
+    $stmt = $conn->prepare("UPDATE commuter SET name=?, email=?, phone=? WHERE commuterID=?");
+    $stmt->bind_param("sssi", $new_name, $new_email, $new_phone, $commuterID);
+}
+
+if ($stmt->execute()) {
+    // Update session email if changed
+    $_SESSION['email'] = $new_email;
+    header("Location: account.php");
+    exit();
+} else {
+    // Error updating the profile
+    echo "Error updating profile: " . $stmt->error;
+}
+
+$stmt->close();
+$conn->close();
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - MetroX</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <header>
-        <h1>Login to MetroX</h1>
-        <img src="logo.png" alt="MetroX Logo" style="width: 400px; height: 100px; object-fit: contain">
-    </header>
-    <main>
-        <h2>Login to Your Account</h2>
-        <?php if (!empty($message)) echo "<p style='color:red;'>".htmlspecialchars($message)."</p>"; ?>
-
-        <form id="login-form" method="POST" action="">
-            <label for="login-username">Username:</label>
-            <input type="text" id="login-username" name="username" required>
-
-            <label for="login-password">Password:</label>
-            <input type="password" id="login-password" name="password" required>
-
-            <button type="submit">Login</button>
-        </form>
-        <p>Don't have an account? <a href="register.php">Register here</a></p>
-    </main>
-
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section about">
-                <h3>About MetroX</h3>
-                <p>MetroX provides real-time metro updates, journey planning, and ticket management for a seamless travel experience.</p>
-            </div>
-
-            <div class="footer-section contact">
-                <h3>Contact Us</h3>
-                <p>Email: support@metrox.com</p>
-                <p>Phone: +1 (123) 456-7890</p>
-            </div>
-
-            <div class="footer-section social">
-                <h3>Follow Us</h3>
-                <a href="#" target="_blank">Facebook</a>
-                <a href="#" target="_blank">Twitter</a>
-                <a href="#" target="_blank">Instagram</a>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <p>&copy; 2025 MetroX. All rights reserved.</p>
-        </div>
-    </footer>
-</body>
-</html>
