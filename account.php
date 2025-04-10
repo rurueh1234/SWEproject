@@ -54,9 +54,9 @@ $conn->close();
     <img src="logo.png" alt="MetroX Logo" style="width: 400px; height: 100px; object-fit: contain">
     <nav>
         <ul>
-            <li><a href="homepage.html">Home</a></li>
+            <li><a href="homepage.php">Home</a></li>
             <li><a href="viewTickets.php">My tickets</a></li>
-            <li><a href="journey.php">Journey Planning</a></li>
+            <li><a href="journey.html">Journey Planning</a></li>
             <li><a href="metroStatus.php">Status</a></li>
             <li><a href="searchStation.php">Stations</a></li>
             <li><a href="alerts.php">Alerts</a></li>
