@@ -1,5 +1,6 @@
-ruba emad hadlaq-444200353-login.html,account.html
-jana almohsen-444204517-start.html,homepage.html,register.html
-renad almughamis-443200538-viewtickets.html-buyticket.html
-norah alzumaya-444200503-journey.html,searchStation.html
-taraf alsubaie-443200819-alerts.html,metrostatus.html
+ruba emad hadlaq-444200353- login.php,account.php, register.php, logout.php
+jana almohsen-444204517- buyTicket.php, 
+viewTicket.php
+renad almughamis-443200538- searchStation.php, metroStatus.php, get_metro_status.php
+norah alzumaya-444200503- homepage.php, config.php, metrox.sql
+taraf alsubaie- 443200819-alerts.php, alert-send.php
