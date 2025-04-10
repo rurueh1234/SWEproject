@@ -2,7 +2,12 @@
 require_once 'config.php';
 session_start();
 
-if (!isset($_SESSION['isLoggedIn']) || $_SESSION['isLoggedIn'] !== true) {
+/*if (!isset($_SESSION['isLoggedIn']) || $_SESSION['isLoggedIn'] !== true) {
+    header("Location: login.php");
+    exit();
+}*/
+
+if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }
@@ -59,7 +64,7 @@ if (!defined('SITE_NAME')) {
 
         <?php
         try {
-            $stmt = $pdo->query("SELECT message, createdAt FROM alerts ORDER BY createdAt DESC LIMIT 3");
+            $stmt = $pdo->query("SELECT message, timestamp FROM alerts ORDER BY timestamp DESC LIMIT 3");
             $alerts = $stmt->fetchAll();
             if ($alerts) {
                 echo "<section>";
