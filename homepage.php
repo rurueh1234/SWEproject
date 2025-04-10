@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 require_once 'config.php';
 session_start();
 
@@ -64,14 +67,14 @@ if (!defined('SITE_NAME')) {
 
         <?php
         try {
-            $stmt = $pdo->query("SELECT message, timestamp FROM alerts ORDER BY timestamp DESC LIMIT 3");
-            $alerts = $stmt->fetchAll();
-            if ($alerts) {
+            $result = $conn->query("SELECT message, createdAt FROM alerts ORDER BY createdAt DESC LIMIT 3");
+
+            if ($result && $result->num_rows > 0) {
                 echo "<section>";
                 echo "<h3>Recent Alerts</h3>";
                 echo "<ul>";
-                foreach ($alerts as $alert) {
-                    echo "<li>" . htmlspecialchars($alert['message']) . " (Posted: " . $alert['timestamp'] . ")</li>";
+                while ($alert = $result->fetch_assoc()) {
+                    echo "<li>" . htmlspecialchars($alert['message']) . " (Posted: " . $alert['createdAt'] . ")</li>";
                 }
                 echo "</ul>";
                 echo "</section>";
