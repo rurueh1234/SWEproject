@@ -59,7 +59,7 @@ if (!defined('SITE_NAME')) {
 
         <?php
         try {
-            $stmt = $pdo->query("SELECT message, timestamp FROM alerts ORDER BY timestamp DESC LIMIT 3");
+            $stmt = $pdo->query("SELECT message, createdAt FROM alerts ORDER BY createdAt DESC LIMIT 3");
             $alerts = $stmt->fetchAll();
             if ($alerts) {
                 echo "<section>";
