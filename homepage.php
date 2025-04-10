@@ -44,14 +44,14 @@ if (!defined('SITE_NAME')) {
         <nav>
             <ul>
                 <li><a href="homepage.php">Home</a></li>
-                <li><a href="viewTickets.html">My tickets</a></li>
-                <li><a href="journey.html">Journey Planning</a></li>
-                <li><a href="metroStatus.html">Status</a></li>
-                <li><a href="searchStation.html">Stations</a></li>
-                <li><a href="alerts.html">Alerts</a></li>
-                <li><a href="buyTicket.html">Buy tickets</a></li>
-                <li><a href="account.html">My account</a></li>
-                <li><a href="?logout=true" id="logout-link">Logout</a></li>
+          <li><a href="viewTickets.php">My tickets</a></li>
+          <li><a href="journey.php">Journey Planning</a></li>
+          <li><a href="metroStatus.php">Status</a></li>
+          <li><a href="searchStation.php">Stations</a></li>
+          <li><a href="alerts.php">Alerts</a></li>
+          <li><a href="buyTicket.php">Buy tickets</a></li>
+          <li><a href="account.php">My account</a></li>
+          <li><a href="logout.php">Logout</a></li>
             </ul>
         </nav>
     </header>
@@ -62,8 +62,8 @@ if (!defined('SITE_NAME')) {
             Get real-time metro updates, plan your journey, and manage your tickets
             with ease.
         </p>
-        <a href="metroStatus.html" class="btn">Check Metro Status</a>
-        <a href="buyTicket.html" class="btn">Buy Tickets</a>
+        <a href="metroStatus.php" class="btn">Check Metro Status</a>
+        <a href="buyTicket.php" class="btn">Buy Tickets</a>
 
         <?php
         try {
