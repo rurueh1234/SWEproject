@@ -141,36 +141,7 @@ mysqli_close($connection);
     </footer>
 
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        if (document.getElementById("alert-table-body")) {
-          loadAlerts();
-        }
-
-        if (
-          document.getElementById("starting-station") &&
-          document.getElementById("destination-station")
-        ) {
-          loadStations();
-        }
-      });
-
-      function loadAlerts() {
-        fetch("alerts.php")
-          .then((response) => response.json())
-          .then((alerts) => {
-            const alertTableBody = document.getElementById("alert-table-body");
-            alertTableBody.innerHTML = "";
-            alerts.forEach((alert) => {
-              const row = document.createElement("tr");
-              row.innerHTML = `
-          <td>${alert.stationName}</td>
-          <td class="msg">${alert.message}</td>
-        `;
-              alertTableBody.appendChild(row);
-            });
-          });
-      }
-
+      
       function loadStations() {
         const stations = [
           "Riyadh Season Station",
