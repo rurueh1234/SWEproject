@@ -96,6 +96,13 @@ CREATE TABLE `station` (
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+INSERT INTO `station` (stationID, name, latitude, longitude, street, neighborhood, status, metroStatus)
+VALUES 
+(1, 'King Fahad Station', 24.7136, 46.6753, 'King Fahad Rd', 'Olaya', 'open', 'On Time'),
+(2, 'Riyadh Season Station', 24.7150, 46.6900, 'Prince Turki St', 'Hittin', 'open', 'Delayed'),
+(3, 'KAFD', 24.7743, 46.6336, 'King Salman Rd', 'KAFD', 'open', 'Cancelled'),
+(4, 'Central Station', 24.6325, 46.7160, 'King Abdulaziz Rd', 'Al-Malaz', 'closed', 'On Time');
+
 -- --------------------------------------------------------
 
 --
