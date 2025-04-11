@@ -4,43 +4,18 @@ if (!isset($_SESSION["username"])) {
   header("Location: login.php");
   exit();
 }
-
 require_once "config.php";
 
-//(Haversine formula)
-function haversine($lat1, $lon1, $lat2, $lon2) {
-  $earth_radius = 6371;
-  $dLat = deg2rad($lat2 - $lat1);
-  $dLon = deg2rad($lon2 - $lon1);
-  $a = sin($dLat/2) * sin($dLat/2) +
-       cos(deg2rad($lat1)) * cos(deg2rad($lat2)) *
-       sin($dLon/2) * sin($dLon/2);
-  $c = 2 * atan2(sqrt($a), sqrt(1-$a));
-  return $earth_radius * $c;
-}
+$stationResults = [];
 
-$stationResult = null;
-
-if (isset($_GET["lat"]) && isset($_GET["lon"])) {
-  $userLat = floatval($_GET["lat"]);
-  $userLon = floatval($_GET["lon"]);
-
-  $sql = "SELECT name, latitude, longitude, status, metroStatus FROM station";
+if (isset($_GET["neighborhood"])) {
+  $neighborhood = $conn->real_escape_string($_GET["neighborhood"]);
+  $sql = "SELECT name, status, metroStatus FROM station WHERE neighborhood = '$neighborhood'";
   $result = $conn->query($sql);
-
-  $closest = null;
-  $shortest = PHP_FLOAT_MAX;
-
-  if ($result->num_rows > 0) {
+  if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-      $dist = haversine($userLat, $userLon, $row["latitude"], $row["longitude"]);
-      if ($dist < $shortest) {
-        $shortest = $dist;
-        $closest = $row;
-        $closest["distance"] = round($dist, 2);
-      }
+      $stationResults[] = $row;
     }
-    $stationResult = $closest;
   }
 }
 ?>
@@ -72,62 +47,75 @@ if (isset($_GET["lat"]) && isset($_GET["lon"])) {
   <img src="logo.png" alt="MetroX Logo" style="width: 400px; height: 100px;" />
   <nav>
     <ul>
-      
       <li><a href="homepage.php">Home</a></li>
-          <li><a href="viewTickets.php">My tickets</a></li>
-          <li><a href="journey.php">Journey Planning</a></li>
-          <li><a href="metroStatus.php">Status</a></li>
-          <li><a href="searchStation.php">Stations</a></li>
-          <li><a href="alerts.php">Alerts</a></li>
-          <li><a href="buyTicket.php">Buy tickets</a></li>
-          <li><a href="account.php">My account</a></li>
-          <li><a href="logout.php">Logout</a></li>
+      <li><a href="viewTickets.php">My tickets</a></li>
+      <li><a href="journey.php">Journey Planning</a></li>
+      <li><a href="metroStatus.php">Status</a></li>
+      <li><a href="searchStation.php">Stations</a></li>
+      <li><a href="alerts.php">Alerts</a></li>
+      <li><a href="buyTicket.php">Buy tickets</a></li>
+      <li><a href="account.php">My account</a></li>
+      <li><a href="logout.php">Logout</a></li>
     </ul>
   </nav>
 </header>
 
 <main>
-  <h2>Find the Nearest Metro Station</h2>
+  <h2>Search Stations by Neighborhood</h2>
   <form method="get" action="searchStation.php">
-    <label for="lat">Latitude:</label>
-    <input type="text" id="lat" name="lat" required>
-    <label for="lon">Longitude:</label>
-    <input type="text" id="lon" name="lon" required>
+    <label for="neighborhood">Select Neighborhood:</label>
+    <select id="neighborhood" name="neighborhood" required>
+      <option value="">-- Choose --</option>
+      <option value="Olaya">Olaya</option>
+      <option value="Hittin">Hittin</option>
+      <option value="KAFD">KAFD</option>
+      <option value="Al-Malaz">Al-Malaz</option>
+      <option value="Al Aqeeq">Al Aqeeq</option>
+    </select>
     <button type="submit">Find Station</button>
-    <button type="button" onclick="useMyLocation()">Use My Location</button>
   </form>
 
   <div id="search-result">
-    <?php if ($stationResult): ?>
-      <h3>Nearest Station</h3>
-      <p><strong>Name:</strong> <?= $stationResult["name"] ?></p>
-      <p><strong>Status:</strong> <?= ucfirst($stationResult["status"]) ?></p>
-      <p><strong>Metro Status:</strong>
-        <span class="status-indicator status-<?= strtolower(str_replace(' ', '-', $stationResult["metroStatus"])) ?>">
-          <?= $stationResult["metroStatus"] ?>
-        </span>
-      </p>
-      <p><strong>Distance:</strong> <?= $stationResult["distance"] ?> km</p>
-    <?php elseif (isset($_GET["lat"])): ?>
-      <p>No station found.</p>
+    <?php if (!empty($stationResults)): ?>
+      <h3>Stations in <?= htmlspecialchars($_GET["neighborhood"]) ?></h3>
+      <?php foreach ($stationResults as $station): ?>
+        <p><strong>Name:</strong> <?= $station["name"] ?></p>
+        <p><strong>Status:</strong> <?= ucfirst($station["status"]) ?></p>
+        <p><strong>Metro Status:</strong>
+          <span class="status-indicator status-<?= strtolower(str_replace(' ', '-', $station["metroStatus"])) ?>">
+            <?= $station["metroStatus"] ?>
+          </span>
+        </p>
+        <hr>
+      <?php endforeach; ?>
+    <?php elseif (isset($_GET["neighborhood"])): ?>
+      <p>No stations found in this neighborhood.</p>
     <?php endif; ?>
   </div>
 </main>
 
-<script>
-function useMyLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition((position) => {
-      document.getElementById("lat").value = position.coords.latitude;
-      document.getElementById("lon").value = position.coords.longitude;
-    }, () => {
-      alert("Failed to get your location.");
-    });
-  } else {
-    alert("Geolocation is not supported by your browser.");
-  }
-}
-</script>
+<footer>
+  <div class="footer-content">
+    <div class="footer-section about">
+      <h3>About MetroX</h3>
+      <p>MetroX is dedicated to providing real-time metro updates, journey planning, and ticket management for a seamless travel experience.</p>
+    </div>
+    <div class="footer-section contact">
+      <h3>Contact Us</h3>
+      <p>Email: support@metrox.com</p>
+      <p>Phone: +1 (123) 456-7890</p>
+    </div>
+    <div class="footer-section social">
+      <h3>Follow Us</h3>
+      <a href="#">Facebook</a>
+      <a href="#">Twitter</a>
+      <a href="#">Instagram</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2025 MetroX. All rights reserved.</p>
+  </div>
+</footer>
 
 </body>
 </html>
