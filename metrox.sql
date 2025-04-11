@@ -96,12 +96,17 @@ CREATE TABLE `station` (
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `station` (stationID, name, latitude, longitude, street, neighborhood, status, metroStatus)
-VALUES 
+INSERT INTO station (stationID, name, latitude, longitude, street, neighborhood, status, metroStatus) VALUES
 (1, 'King Fahad Station', 24.7136, 46.6753, 'King Fahad Rd', 'Olaya', 'open', 'On Time'),
 (2, 'Riyadh Season Station', 24.7150, 46.6900, 'Prince Turki St', 'Hittin', 'open', 'Delayed'),
-(3, 'KAFD', 24.7743, 46.6336, 'King Salman Rd', 'KAFD', 'open', 'Cancelled'),
-(4, 'Central Station', 24.6325, 46.7160, 'King Abdulaziz Rd', 'Al-Malaz', 'closed', 'On Time');
+(3, 'KAFD Station', 24.7743, 46.6336, 'King Salman Rd', 'KAFD', 'open', 'Cancelled'),
+(4, 'Central Station', 24.6325, 46.7160, 'King Abdulaziz Rd', 'Al-Malaz', 'closed', 'On Time'),
+(5, 'King Abdullah Financial District', 24.7895, 46.6364, 'KAFD Blvd', 'Al Aqeeq', 'open', 'On Time'),
+(6, 'Al Malaz Station', 24.6580, 46.7321, 'Al Ihsa St', 'Al-Malaz', 'open', 'Delayed'),
+(7, 'Olaya South Station', 24.6987, 46.6765, 'Tahlia St', 'Olaya', 'open', 'On Time'),
+(8, 'Hittin North Station', 24.7288, 46.6690, 'Imam Saud St', 'Hittin', 'open', 'On Time'),
+(9, 'Al Aqeeq North', 24.8011, 46.6439, 'Anas Bin Malik Rd', 'Al Aqeeq', 'open', 'Delayed');
+
 
 -- --------------------------------------------------------
 
