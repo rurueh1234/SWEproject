@@ -107,7 +107,7 @@ INSERT INTO station (stationID, name, latitude, longitude, street, neighborhood,
 (8, 'Hittin North Station', 24.7288, 46.6690, 'Imam Saud St', 'Hittin', 'open', 'On Time'),
 (9, 'Al Aqeeq North', 24.8011, 46.6439, 'Anas Bin Malik Rd', 'Al Aqeeq', 'open', 'Delayed');
 
-ALTER TABLE station ADD PRIMARY KEY (stationID);
+
 
 CREATE TABLE arrival_times (
   id INT AUTO_INCREMENT PRIMARY KEY,
