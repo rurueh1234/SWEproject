@@ -209,8 +209,7 @@ ALTER TABLE `metrocabin`
 --
 -- Indexes for table `station`
 --
-ALTER TABLE `station`
-  ADD PRIMARY KEY (`stationID`);
+
 
 --
 -- Indexes for table `stationmetrocabin`
