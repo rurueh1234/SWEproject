@@ -107,13 +107,15 @@ INSERT INTO station (stationID, name, latitude, longitude, street, neighborhood,
 (8, 'Hittin North Station', 24.7288, 46.6690, 'Imam Saud St', 'Hittin', 'open', 'On Time'),
 (9, 'Al Aqeeq North', 24.8011, 46.6439, 'Anas Bin Malik Rd', 'Al Aqeeq', 'open', 'Delayed');
 
+ALTER TABLE station ADD PRIMARY KEY (stationID);
 
 CREATE TABLE arrival_times (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  stationID INT,
+  stationID INT(11) NOT NULL,
   arrivalTime TIME NOT NULL,
   FOREIGN KEY (stationID) REFERENCES station(stationID) ON DELETE CASCADE
 );
+
 
 INSERT INTO arrival_times (stationID, arrivalTime) VALUES
 -- King Fahad Station
