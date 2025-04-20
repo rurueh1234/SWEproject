@@ -18,81 +18,81 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `metrox`
+-- Database: metrox
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `commuter`
+-- Table structure for table commuter
 --
 
-CREATE TABLE `commuter` (
-  `commuterID` int(11) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `latitude` decimal(9,6) DEFAULT NULL,
-  `longitude` decimal(9,6) DEFAULT NULL,
-  `phone` VARCHAR(20) DEFAULT NULL,
-`profile_pic` VARCHAR(255) DEFAULT NULL
+CREATE TABLE commuter (
+  commuterID int(11) NOT NULL,
+  name varchar(100) NOT NULL,
+  email varchar(100) NOT NULL,
+  password varchar(255) NOT NULL,
+  latitude decimal(9,6) DEFAULT NULL,
+  longitude decimal(9,6) DEFAULT NULL,
+  phone VARCHAR(20) DEFAULT NULL,
+profile_pic VARCHAR(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `journey`
+-- Table structure for table journey
 --
 
-CREATE TABLE `journey` (
-  `journeyNum` int(11) NOT NULL,
-  `startStation` int(11) NOT NULL,
-  `endStation` int(11) NOT NULL,
-  `duration` int(11) NOT NULL,
-  `status` enum('on-time','delayed','cancelled') DEFAULT 'on-time',
-  `ticketID` int(11) DEFAULT NULL
+CREATE TABLE journey (
+  journeyNum int(11) NOT NULL,
+  startStation int(11) NOT NULL,
+  endStation int(11) NOT NULL,
+  duration int(11) NOT NULL,
+  status enum('on-time','delayed','cancelled') DEFAULT 'on-time',
+  ticketID int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `journeystation`
+-- Table structure for table journeystation
 --
 
-CREATE TABLE `journeystation` (
-  `journeyNum` int(11) NOT NULL,
-  `stationID` int(11) NOT NULL,
-  `stopOrder` int(11) NOT NULL
+CREATE TABLE journeystation (
+  journeyNum int(11) NOT NULL,
+  stationID int(11) NOT NULL,
+  stopOrder int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `metrocabin`
+-- Table structure for table metrocabin
 --
 
-CREATE TABLE `metrocabin` (
-  `metroCabinID` int(11) NOT NULL,
-  `capacity` int(11) NOT NULL,
-  `speed` decimal(5,2) DEFAULT NULL,
-  `gateType` varchar(50) DEFAULT NULL
+CREATE TABLE metrocabin (
+  metroCabinID int(11) NOT NULL,
+  capacity int(11) NOT NULL,
+  speed decimal(5,2) DEFAULT NULL,
+  gateType varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `station`
+-- Table structure for table station
 --
 
-CREATE TABLE `station` (
-  `stationID` int(11) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `latitude` decimal(9,6) NOT NULL,
-  `longitude` decimal(9,6) NOT NULL,
-  `street` varchar(100) DEFAULT NULL,
-  `neighborhood` varchar(100) DEFAULT NULL,
-  `status` enum('open','closed') DEFAULT 'open',
-  `metroStatus` ENUM('On Time', 'Delayed', 'Cancelled') DEFAULT 'On Time'
+CREATE TABLE station (
+  stationID int(11) NOT NULL,
+  name varchar(100) NOT NULL,
+  latitude decimal(9,6) NOT NULL,
+  longitude decimal(9,6) NOT NULL,
+  street varchar(100) DEFAULT NULL,
+  neighborhood varchar(100) DEFAULT NULL,
+  status enum('open','closed') DEFAULT 'open',
+  metroStatus ENUM('On Time', 'Delayed', 'Cancelled') DEFAULT 'On Time'
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -108,69 +108,36 @@ INSERT INTO station (stationID, name, latitude, longitude, street, neighborhood,
 (9, 'Al Aqeeq North', 24.8011, 46.6439, 'Anas Bin Malik Rd', 'Al Aqeeq', 'open', 'Delayed');
 
 
-
-CREATE TABLE arrival_times (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  stationID INT(11) NOT NULL,
-  arrivalTime TIME NOT NULL,
-  FOREIGN KEY (stationID) REFERENCES station(stationID) ON DELETE CASCADE
-);
+-- --------------------------------------------------------
 
 
-INSERT INTO arrival_times (stationID, arrivalTime) VALUES
--- King Fahad Station
-(1, '07:00:00'), (1, '10:00:00'), (1, '13:00:00'), (1, '17:00:00'), (1, '21:00:00'),
-
--- Riyadh Season Station
-(2, '07:15:00'), (2, '10:15:00'), (2, '13:15:00'), (2, '17:15:00'), (2, '21:15:00'),
-
--- KAFD Station
-(3, '07:30:00'), (3, '10:30:00'), (3, '13:30:00'), (3, '17:30:00'), (3, '21:30:00'),
-
--- Central Station
-(4, '07:45:00'), (4, '10:45:00'), (4, '13:45:00'), (4, '17:45:00'), (4, '21:45:00'),
-
--- King Abdullah Financial District
-(5, '08:00:00'), (5, '11:00:00'), (5, '14:00:00'), (5, '18:00:00'), (5, '22:00:00'),
-
--- Al Malaz Station
-(6, '08:15:00'), (6, '11:15:00'), (6, '14:15:00'), (6, '18:15:00'), (6, '22:15:00'),
-
--- Olaya South Station
-(7, '08:30:00'), (7, '11:30:00'), (7, '14:30:00'), (7, '18:30:00'), (7, '22:30:00'),
-
--- Hittin North Station
-(8, '08:45:00'), (8, '11:45:00'), (8, '14:45:00'), (8, '18:45:00'), (8, '22:45:00'),
-
--- Al Aqeeq North
-(9, '09:00:00'), (9, '12:00:00'), (9, '15:00:00'), (9, '19:00:00'), (9, '23:00:00');
 
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `stationmetrocabin`
+-- Table structure for table stationmetrocabin
 --
 
-CREATE TABLE `stationmetrocabin` (
-  `stationID` int(11) NOT NULL,
-  `metroCabinID` int(11) NOT NULL
+CREATE TABLE stationmetrocabin (
+  stationID int(11) NOT NULL,
+  metroCabinID int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ticket`
+-- Table structure for table ticket
 --
 
-CREATE TABLE `ticket` (
-  `ticketID` int(11) NOT NULL,
-  `price` decimal(10,2) NOT NULL,
-  `ticketType` enum('Family','Individual') NOT NULL,
-  `NOofMember` int(11) DEFAULT NULL,
-  `validityPeriod` enum('one-time','daily','weekly') DEFAULT 'one-time',
-  `commuterID` int(11) NOT NULL
+CREATE TABLE ticket (
+  ticketID int(11) NOT NULL,
+  price decimal(10,2) NOT NULL,
+  ticketType enum('Family','Individual') NOT NULL,
+  NOofMember int(11) DEFAULT NULL,
+  validityPeriod enum('one-time','daily','weekly') DEFAULT 'one-time',
+  commuterID int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -178,118 +145,119 @@ CREATE TABLE `ticket` (
 --
 
 --
--- Indexes for table `commuter`
+-- Indexes for table commuter
 --
-ALTER TABLE `commuter`
-  ADD PRIMARY KEY (`commuterID`),
-  ADD UNIQUE KEY `email` (`email`);
+ALTER TABLE commuter
+  ADD PRIMARY KEY (commuterID),
+  ADD UNIQUE KEY email (email);
 
 --
--- Indexes for table `journey`
+-- Indexes for table journey
 --
-ALTER TABLE `journey`
-  ADD PRIMARY KEY (`journeyNum`),
-  ADD KEY `startStation` (`startStation`),
-  ADD KEY `endStation` (`endStation`),
-  ADD KEY `ticketID` (`ticketID`);
+ALTER TABLE journey
+  ADD PRIMARY KEY (journeyNum),
+  ADD KEY startStation (startStation),
+  ADD KEY endStation (endStation),
+  ADD KEY ticketID (ticketID);
 
 --
--- Indexes for table `journeystation`
+-- Indexes for table journeystation
 --
-ALTER TABLE `journeystation`
-  ADD PRIMARY KEY (`journeyNum`,`stationID`),
-  ADD KEY `stationID` (`stationID`);
+ALTER TABLE journeystation
+  ADD PRIMARY KEY (journeyNum,stationID),
+  ADD KEY stationID (stationID);
 
 --
--- Indexes for table `metrocabin`
+-- Indexes for table metrocabin
 --
-ALTER TABLE `metrocabin`
-  ADD PRIMARY KEY (`metroCabinID`);
+ALTER TABLE metrocabin
+  ADD PRIMARY KEY (metroCabinID);
 
 --
--- Indexes for table `station`
+-- Indexes for table station
 --
-
-
---
--- Indexes for table `stationmetrocabin`
---
-ALTER TABLE `stationmetrocabin`
-  ADD PRIMARY KEY (`stationID`,`metroCabinID`),
-  ADD KEY `metroCabinID` (`metroCabinID`);
+ALTER TABLE station
+  ADD PRIMARY KEY (stationID);
 
 --
--- Indexes for table `ticket`
+-- Indexes for table stationmetrocabin
 --
-ALTER TABLE `ticket`
-  ADD PRIMARY KEY (`ticketID`),
-  ADD KEY `commuterID` (`commuterID`);
+ALTER TABLE stationmetrocabin
+  ADD PRIMARY KEY (stationID,metroCabinID),
+  ADD KEY metroCabinID (metroCabinID);
+
+--
+-- Indexes for table ticket
+--
+ALTER TABLE ticket
+  ADD PRIMARY KEY (ticketID),
+  ADD KEY commuterID (commuterID);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `commuter`
+-- AUTO_INCREMENT for table commuter
 --
-ALTER TABLE `commuter`
-  MODIFY `commuterID` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE commuter
+  MODIFY commuterID int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `journey`
+-- AUTO_INCREMENT for table journey
 --
-ALTER TABLE `journey`
-  MODIFY `journeyNum` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE journey
+  MODIFY journeyNum int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `metrocabin`
+-- AUTO_INCREMENT for table metrocabin
 --
-ALTER TABLE `metrocabin`
-  MODIFY `metroCabinID` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE metrocabin
+  MODIFY metroCabinID int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `station`
+-- AUTO_INCREMENT for table station
 --
-ALTER TABLE `station`
-  MODIFY `stationID` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE station
+  MODIFY stationID int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `ticket`
+-- AUTO_INCREMENT for table ticket
 --
-ALTER TABLE `ticket`
-  MODIFY `ticketID` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE ticket
+  MODIFY ticketID int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `journey`
+-- Constraints for table journey
 --
-ALTER TABLE `journey`
-  ADD CONSTRAINT `journey_ibfk_1` FOREIGN KEY (`startStation`) REFERENCES `station` (`stationID`),
-  ADD CONSTRAINT `journey_ibfk_2` FOREIGN KEY (`endStation`) REFERENCES `station` (`stationID`),
-  ADD CONSTRAINT `journey_ibfk_3` FOREIGN KEY (`ticketID`) REFERENCES `ticket` (`ticketID`) ON DELETE SET NULL;
+ALTER TABLE journey
+  ADD CONSTRAINT journey_ibfk_1 FOREIGN KEY (startStation) REFERENCES station (stationID),
+  ADD CONSTRAINT journey_ibfk_2 FOREIGN KEY (endStation) REFERENCES station (stationID),
+  ADD CONSTRAINT journey_ibfk_3 FOREIGN KEY (ticketID) REFERENCES ticket (ticketID) ON DELETE SET NULL;
 
 --
--- Constraints for table `journeystation`
+-- Constraints for table journeystation
 --
-ALTER TABLE `journeystation`
-  ADD CONSTRAINT `journeystation_ibfk_1` FOREIGN KEY (`journeyNum`) REFERENCES `journey` (`journeyNum`) ON DELETE CASCADE,
-  ADD CONSTRAINT `journeystation_ibfk_2` FOREIGN KEY (`stationID`) REFERENCES `station` (`stationID`);
+ALTER TABLE journeystation
+  ADD CONSTRAINT journeystation_ibfk_1 FOREIGN KEY (journeyNum) REFERENCES journey (journeyNum) ON DELETE CASCADE,
+  ADD CONSTRAINT journeystation_ibfk_2 FOREIGN KEY (stationID) REFERENCES station (stationID);
 
 --
--- Constraints for table `stationmetrocabin`
+-- Constraints for table stationmetrocabin
 --
-ALTER TABLE `stationmetrocabin`
-  ADD CONSTRAINT `stationmetrocabin_ibfk_1` FOREIGN KEY (`stationID`) REFERENCES `station` (`stationID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `stationmetrocabin_ibfk_2` FOREIGN KEY (`metroCabinID`) REFERENCES `metrocabin` (`metroCabinID`) ON DELETE CASCADE;
+ALTER TABLE stationmetrocabin
+  ADD CONSTRAINT stationmetrocabin_ibfk_1 FOREIGN KEY (stationID) REFERENCES station (stationID) ON DELETE CASCADE,
+  ADD CONSTRAINT stationmetrocabin_ibfk_2 FOREIGN KEY (metroCabinID) REFERENCES metrocabin (metroCabinID) ON DELETE CASCADE;
 
 --
--- Constraints for table `ticket`
+-- Constraints for table ticket
 --
-ALTER TABLE `ticket`
-  ADD CONSTRAINT `ticket_ibfk_1` FOREIGN KEY (`commuterID`) REFERENCES `commuter` (`commuterID`) ON DELETE CASCADE;
+ALTER TABLE ticket
+  ADD CONSTRAINT ticket_ibfk_1 FOREIGN KEY (commuterID) REFERENCES commuter (commuterID) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
@@ -297,11 +265,11 @@ COMMIT;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
 
-CREATE TABLE IF NOT EXISTS `alerts` (
-  `alertID` INT NOT NULL AUTO_INCREMENT,
-  `stationName` VARCHAR(100) NOT NULL,
-  `message` TEXT NOT NULL,
-  `alertType` VARCHAR(50) NOT NULL,
-  `createdAt` DATETIME DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`alertID`)
+CREATE TABLE IF NOT EXISTS alerts (
+  alertID INT NOT NULL AUTO_INCREMENT,
+  stationName VARCHAR(100) NOT NULL,
+  message TEXT NOT NULL,
+  alertType VARCHAR(50) NOT NULL,
+  createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (alertID)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
