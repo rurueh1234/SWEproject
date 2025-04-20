@@ -108,6 +108,43 @@ INSERT INTO station (stationID, name, latitude, longitude, street, neighborhood,
 (9, 'Al Aqeeq North', 24.8011, 46.6439, 'Anas Bin Malik Rd', 'Al Aqeeq', 'open', 'Delayed');
 
 
+CREATE TABLE arrival_times (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  stationID INT,
+  arrivalTime TIME NOT NULL,
+  FOREIGN KEY (stationID) REFERENCES station(stationID) ON DELETE CASCADE
+);
+
+INSERT INTO arrival_times (stationID, arrivalTime) VALUES
+-- King Fahad Station
+(1, '07:00:00'), (1, '10:00:00'), (1, '13:00:00'), (1, '17:00:00'), (1, '21:00:00'),
+
+-- Riyadh Season Station
+(2, '07:15:00'), (2, '10:15:00'), (2, '13:15:00'), (2, '17:15:00'), (2, '21:15:00'),
+
+-- KAFD Station
+(3, '07:30:00'), (3, '10:30:00'), (3, '13:30:00'), (3, '17:30:00'), (3, '21:30:00'),
+
+-- Central Station
+(4, '07:45:00'), (4, '10:45:00'), (4, '13:45:00'), (4, '17:45:00'), (4, '21:45:00'),
+
+-- King Abdullah Financial District
+(5, '08:00:00'), (5, '11:00:00'), (5, '14:00:00'), (5, '18:00:00'), (5, '22:00:00'),
+
+-- Al Malaz Station
+(6, '08:15:00'), (6, '11:15:00'), (6, '14:15:00'), (6, '18:15:00'), (6, '22:15:00'),
+
+-- Olaya South Station
+(7, '08:30:00'), (7, '11:30:00'), (7, '14:30:00'), (7, '18:30:00'), (7, '22:30:00'),
+
+-- Hittin North Station
+(8, '08:45:00'), (8, '11:45:00'), (8, '14:45:00'), (8, '18:45:00'), (8, '22:45:00'),
+
+-- Al Aqeeq North
+(9, '09:00:00'), (9, '12:00:00'), (9, '15:00:00'), (9, '19:00:00'), (9, '23:00:00');
+
+
+
 -- --------------------------------------------------------
 
 --
