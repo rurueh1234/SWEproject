@@ -6,6 +6,7 @@ if (!isset($_SESSION["user_id"])) {
   exit();
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -160,7 +161,8 @@ if (!isset($_SESSION["user_id"])) {
 
               row.innerHTML = `
                 <td>${entry.name}</td>
-                <td>-</td>
+              <td>${entry.nextArrival ?? '-'}</td>
+
                 <td class="status-indicator ${statusClass}">
                     ${entry.metroStatus}
                 </td>
@@ -172,48 +174,10 @@ if (!isset($_SESSION["user_id"])) {
             console.error("Error fetching metro status:", error);
           });
       }
-,
-          {
-            station: "Kingdom Centre Station",
-            nextArrival: "7 mins",
-            status: "Delayed",
-          },
-          {
-            station: "Central Station",
-            nextArrival: "5 mins",
-            status: "On Time",
-          },
-          { station: "KAFD", nextArrival: "12 mins", status: "Cancelled" },
-        ];
 
-        const metroStatusList = document.getElementById("metro-status-list");
-        metroStatusList.innerHTML = "";
+       
 
-        metroStatus.forEach((entry) => {
-          const row = document.createElement("tr");
-          let statusClass = "";
-
-          if (entry.status === "On Time") {
-            statusClass = "status-on-time";
-          } else if (entry.status === "Delayed") {
-            statusClass = "status-delayed";
-          } else if (entry.status === "Cancelled") {
-            statusClass = "status-cancelled";
-          }
-
-          row.innerHTML = `
-            <td>${entry.station}</td>
-            <td>${entry.nextArrival}</td>
-            <td class="status-indicator ${statusClass}">
-                ${entry.status}
-            </td>
-        `;
-
-          metroStatusList.appendChild(row);
-        });
-
-        console.log("Metro status updated with real-time data.");
-      }
+  
 
       function loadStations() {
         const stations = [
